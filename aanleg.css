@@ -1,0 +1,42 @@
+/* ============================================
+   // AANLEG.CSS – Stijlen specifiek voor aanleg.html
+   // Laadt na style.css (basis)
+   ============================================ */
+
+/* // Geen extra pagina-specifieke overschrijvingen nodig –
+   // alle benodigde stijlen (page-hero, detail-section,
+   // steps-section, cta-section) zitten in style.css.
+   // Dit bestand is beschikbaar voor toekomstige
+   // aanleg-specifieke aanpassingen. */
+
+/* // Aanleg pagina: accentkleur voor de detail afbeelding */
+.detail-image {
+    border-color: var(--gold-dark);
+}
+
+/* // Aanleg pagina: highlight op de checklist items */
+.detail-list li strong {
+    color: var(--gold-light);
+}
+
+/* // Aanleg pagina: stap-kaarten krijgen een subtiele groene tint */
+.step-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+/* // Aanleg pagina: CTA knop in hero iets groter */
+.page-hero-content .btn-primary {
+    padding: 14px 36px;
+    font-size: 1rem;
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    .page-hero-content .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+}

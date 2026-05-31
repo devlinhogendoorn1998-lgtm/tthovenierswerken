@@ -1,0 +1,43 @@
+/* ============================================
+   // ONDERHOUD.CSS – Stijlen specifiek voor onderhoud.html
+   // Laadt na style.css (basis)
+   ============================================ */
+
+/* // Onderhoud pagina: accentkleur detail afbeelding */
+.detail-image {
+    border-color: var(--gold-dark);
+}
+
+/* // Onderhoud pagina: highlight op seizoenslijst */
+.detail-list li strong {
+    color: var(--gold-light);
+}
+
+/* // Onderhoud pagina: tweede detail sectie (seizoensonderhoud)
+   heeft een lichtere achtergrond – al geregeld via inline style,
+   maar hier voor consistentie vastgelegd */
+.detail-section.alt-bg {
+    background: rgba(22,22,22,0.45);
+}
+
+/* // Onderhoud pagina: stap-kaarten hover */
+.step-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+/* // Onderhoud pagina: CTA knop in hero */
+.page-hero-content .btn-primary {
+    padding: 14px 36px;
+    font-size: 1rem;
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    .page-hero-content .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+}
