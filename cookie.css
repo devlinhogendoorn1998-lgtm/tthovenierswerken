@@ -32,7 +32,7 @@
 /* // Cookie Banner: zichtbaar wanneer actief */
 #cookie-banner.visible {
     opacity: 1;
-    max-height: 200px;
+    max-height: 400px;
     padding: 20px 24px;
 }
 
@@ -142,8 +142,17 @@
     #cookie-banner {
         flex-direction: column;
         align-items: flex-start;
-        padding: 18px 18px 22px;
         gap: 14px;
+    }
+
+    #cookie-banner.visible {
+        padding: 18px 18px 22px;
+        max-height: 400px;
+    }
+
+    .cookie-text {
+        min-width: 0;
+        width: 100%;
     }
 
     .cookie-actions {
