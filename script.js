@@ -207,7 +207,7 @@
     }
 })();
 
-// Sectie: Offerte formulier – validatie & verzenden
+// Sectie: Offerte formulier – validatie & verzenden via mailto
 (function () {
     const form = document.getElementById('quoteForm');
     if (!form) return;
@@ -216,11 +216,11 @@
         e.preventDefault();
 
         // Eenvoudige validatie
-        const naam = document.getElementById('naam');
-        const telefoon = document.getElementById('telefoon');
-        const email = document.getElementById('email');
-        const adres = document.getElementById('adres');
-        const dienst = document.getElementById('dienst');
+        const naam      = document.getElementById('naam');
+        const telefoon  = document.getElementById('telefoon');
+        const email     = document.getElementById('email');
+        const adres     = document.getElementById('adres');
+        const dienst    = document.getElementById('dienst');
 
         let geldig = true;
         const velden = [naam, telefoon, email, adres, dienst];
@@ -251,12 +251,44 @@
             return;
         }
 
+        // Bouw e-mailinhoud op uit formuliervelden
+        const dienstLabels = {
+            aanleg:    'Tuinaanleg',
+            onderhoud: 'Tuinonderhoud',
+            hogedruk:  'Hogedrukreiniging',
+            meerdere:  'Meerdere diensten'
+        };
+
+        const oppervlakteEl = document.getElementById('oppervlakte');
+        const berichtEl     = document.getElementById('bericht');
+
+        const dienstLabel   = dienstLabels[dienst.value] || dienst.value;
+        const oppervlakte   = (oppervlakteEl && oppervlakteEl.value) ? oppervlakteEl.value + ' m²' : 'Niet opgegeven';
+        const bericht       = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
+
+        const onderwerp = 'Offerte aanvraag – ' + naam.value.trim();
+
+        const body =
+            'Naam: ' + naam.value.trim() + '\n' +
+            'Telefoon: ' + telefoon.value.trim() + '\n' +
+            'E-mail: ' + email.value.trim() + '\n' +
+            'Adres / Woonplaats: ' + adres.value.trim() + '\n' +
+            'Gewenste dienst: ' + dienstLabel + '\n' +
+            (dienst.value === 'hogedruk' ? 'Oppervlakte: ' + oppervlakte + '\n' : '') +
+            '\nOmschrijving:\n' + bericht;
+
+        // Open standaard e-mailclient met vooringevulde mail
+        window.location.href =
+            'mailto:info@ttdigitaldesign.nl' +
+            '?subject=' + encodeURIComponent(onderwerp) +
+            '&body='    + encodeURIComponent(body);
+
         // Succes feedback
         const submitBtn = form.querySelector('.submit-btn');
         const origineleTekst = submitBtn ? submitBtn.textContent : '';
 
         if (submitBtn) {
-            submitBtn.textContent = '✓ Aanvraag ontvangen!';
+            submitBtn.textContent = '✓ E-mailclient geopend!';
             submitBtn.style.background = 'linear-gradient(135deg, #4caf7d, #2e7d52)';
             submitBtn.style.borderColor = '#4caf7d';
             submitBtn.disabled = true;
