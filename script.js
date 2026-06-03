@@ -304,6 +304,7 @@
         const templateParams = {
             naam:        naam.value.trim(),
             telefoon:    telefoon.value.trim(),
+            phone:       telefoon.value.trim(),
             email:       email.value.trim(),
             adres:       adres.value.trim(),
             dienst:      dienstLabel,
