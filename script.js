@@ -320,7 +320,7 @@
         }
 
         // Verstuur via EmailJS
-        emailjs.send('LtEHc1nA20ch', 'template_d57hl8b', templateParams)
+        emailjs.send('service_02uys6i', 'template_d57hl8b', templateParams)
             .then(function () {
                 // Toon succes modal
                 if (successModal) {
