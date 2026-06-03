@@ -17,9 +17,14 @@
     let startTime = performance.now();
 
     // Bereken hexagon grid
+    // Sectie: DOM reads eerst, daarna writes – voorkomt forced reflow
     function buildGrid() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+        // Lees dimensies eerst (batch read)
+        const newW = window.innerWidth;
+        const newH = window.innerHeight;
+        // Schrijf daarna naar canvas (batch write)
+        W = canvas.width  = newW;
+        H = canvas.height = newH;
 
         const colW = (HEX_SIZE * 2) + HEX_GAP;
         const rowH = (Math.sqrt(3) * HEX_SIZE) + HEX_GAP;
@@ -144,12 +149,16 @@
     const header = document.querySelector('.site-header');
     if (!header) return;
 
+    // Sectie: Scroll handler – lees scrollY eerst, schrijf stijl daarna via rAF
     function onScroll() {
-        if (window.scrollY > 60) {
-            header.style.boxShadow = '0 4px 24px rgba(0,0,0,0.5)';
-        } else {
-            header.style.boxShadow = 'none';
-        }
+        // Batch read: lees geometrische waarde buiten rAF
+        const scrolled = window.scrollY > 60;
+        // Batch write: DOM-mutatie in requestAnimationFrame om forced reflow te voorkomen
+        requestAnimationFrame(function () {
+            header.style.boxShadow = scrolled
+                ? '0 4px 24px rgba(0,0,0,0.5)'
+                : 'none';
+        });
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -279,7 +288,7 @@
 
         // Open standaard e-mailclient met vooringevulde mail
         window.location.href =
-            'mailto:info@ttdigitaldesign.nl' +
+            'mailto:info@tthovenierswerken.nl' +
             '?subject=' + encodeURIComponent(onderwerp) +
             '&body='    + encodeURIComponent(body);
 

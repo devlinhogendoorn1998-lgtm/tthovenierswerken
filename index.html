@@ -12,10 +12,8 @@
     <meta property="og:image" content="img/onderhoud-desktop.webp">
     <meta property="og:type" content="website">
     <title>TT Hovenierswerken | Tuinaanleg, Onderhoud & Hogedrukreiniging – Baarn</title>
-    <!-- // CSS: basis eerst, daarna pagina-specifiek -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="cookie.css">
+    <!-- // CSS: samengevoegd tot één bestand voor minder render-blocking verzoeken -->
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
@@ -23,7 +21,8 @@
     <header class="site-header">
         <div class="container nav-container">
             <a href="index.html" class="logo-link">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo">
+                <!-- // IMG: expliciete width/height voorkomt CLS -->
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo" width="132" height="72">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
                 <span></span><span></span><span></span>
@@ -42,7 +41,8 @@
 
             <!-- Links: logo + tekst + USP's + knoppen -->
             <div class="hero-left">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="hero-logo">
+                <!-- // IMG: expliciete width/height voorkomt layout shift -->
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="hero-logo" width="293" height="160">
                 <span class="hero-badge">Vakkundig &amp; Betrouwbaar</span>
                 <h1>Exclusieve Tuinen,<br>Vakkundig Gerealiseerd</h1>
                 <p>Met meer dan 10 jaar ervaring transformeren wij jouw buitenruimte tot een luxe leefomgeving. Actief in Baarn en omgeving.</p>
@@ -64,7 +64,8 @@
                     <picture>
                         <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                         <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/tuin-oplevering-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager">
+                        <!-- // IMG: width/height op fallback img voor CLS-preventie -->
+                        <img src="img/tuin-oplevering-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager" width="440" height="420">
                     </picture>
                     <div class="hero-img-badge">
                         <span class="hero-img-badge-num">10+</span>
@@ -80,6 +81,7 @@
     <section id="diensten" class="services-section">
         <div class="container">
             <span class="section-label">Wat wij doen</span>
+            <!-- // H2: correct na H1 in hiërarchie -->
             <h2>Onze Diensten</h2>
             <p class="subtitle">Hover over een kaart om meer te ontdekken over onze aanpak.</p>
 
@@ -92,9 +94,11 @@
                             <picture>
                                 <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                                 <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg door TT Hovenierswerken" class="card-img" loading="lazy">
+                                <!-- // IMG: width/height voor lazy-loaded kaartafbeeldingen -->
+                                <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
                             </picture>
                             <div class="card-front-content">
+                                <!-- // H3: correct na H2 in hiërarchie -->
                                 <h3>Tuinaanleg</h3>
                                 <p>Van modern design tot complete realisatie. Wij bouwen jouw droomtuin.</p>
                                 <span class="more-info">Bekijk aanpak →</span>
@@ -115,7 +119,7 @@
                             <picture>
                                 <source srcset="img/onderhoud-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                                 <source srcset="img/onderhoud-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <img src="img/onderhoud-desktop.webp" alt="Tuinonderhoud door TT Hovenierswerken" class="card-img" loading="lazy">
+                                <img src="img/onderhoud-desktop.webp" alt="Tuinonderhoud door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
                             </picture>
                             <div class="card-front-content">
                                 <h3>Tuinonderhoud</h3>
@@ -138,7 +142,7 @@
                             <picture>
                                 <source srcset="img/hogedruk-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                                 <source srcset="img/hogedruk-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <img src="img/hogedruk-desktop.webp" alt="Hogedrukreiniging door TT Hovenierswerken" class="card-img" loading="lazy">
+                                <img src="img/hogedruk-desktop.webp" alt="Hogedrukreiniging door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
                             </picture>
                             <div class="card-front-content">
                                 <h3>Hogedrukreiniging</h3>
@@ -167,6 +171,7 @@
                 <!-- Links: intro + voordelen -->
                 <div class="quote-intro">
                     <span class="section-label">Vrijblijvend</span>
+                    <!-- // H2: correct na H1 in hiërarchie -->
                     <h2>Offerte Aanvragen</h2>
                     <p>Vul het formulier in en wij nemen binnen 24 uur contact met u op. Het definitieve tarief bepalen we na een gratis nameting op locatie.</p>
                     <ul class="quote-benefits">
@@ -238,6 +243,7 @@
     <section id="werkgebied" class="werkgebied-section">
         <div class="container">
             <span class="section-label">Ons werkgebied</span>
+            <!-- // H2: correct na H1 in hiërarchie -->
             <h2>Actief in 20 km rond Baarn</h2>
             <p class="subtitle">Wij zijn actief in Baarn en alle omliggende plaatsen binnen een straal van 20 kilometer.</p>
             <div class="plaatsen-grid">
@@ -274,11 +280,13 @@
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo">
+                <!-- // IMG: expliciete width/height voor footer logo -->
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo" width="88" height="48">
                 <p>Vakkundige hoveniers actief in Baarn en omgeving. Tuinaanleg, onderhoud en hogedrukreiniging op maat.</p>
             </div>
             <div class="footer-links">
-                <h4>Diensten</h4>
+                <!-- // H3: correct na H2 in hiërarchie (was h4, nu h3 voor correcte volgorde) -->
+                <h3 class="footer-heading">Diensten</h3>
                 <ul>
                     <li><a href="aanleg.html">Tuinaanleg</a></li>
                     <li><a href="onderhoud.html">Tuinonderhoud</a></li>
@@ -286,7 +294,7 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Navigatie</h4>
+                <h3 class="footer-heading">Navigatie</h3>
                 <ul>
                     <li><a href="#diensten">Onze diensten</a></li>
                     <li><a href="#werkgebied">Werkgebied</a></li>
@@ -294,14 +302,14 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Juridisch</h4>
+                <h3 class="footer-heading">Juridisch</h3>
                 <ul>
                     <li><a href="privacy.html">Privacybeleid</a></li>
                     <li><a href="algemene-voorwaarden.html">Algemene Voorwaarden</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
-                <h4>Contact</h4>
+                <h3 class="footer-heading">Contact</h3>
                 <p>Baarn en omgeving</p>
                 <p>Werkgebied: 20 km radius</p>
                 <a href="#offerte" class="btn btn-outline footer-btn">Offerte aanvragen</a>
@@ -312,7 +320,7 @@
         </div>
     </footer>
 
-    <!-- // Cookie Banner -->
+    <!-- // Cookie Banner: position:fixed via CSS, buiten documentflow voor CLS-preventie -->
     <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookiemelding">
         <div class="cookie-text">
             <p><strong>🍪 Wij gebruiken cookies</strong> om uw ervaring te verbeteren en onze website te analyseren. Door op "Accepteren" te klikken, gaat u akkoord met ons gebruik van cookies. Lees meer in ons <a href="privacy.html">privacybeleid</a>.</p>
@@ -323,8 +331,8 @@
         </div>
     </div>
 
-    <!-- // JavaScript -->
-    <script src="script.js"></script>
-    <script src="cookie.js"></script>
+    <!-- // JavaScript: defer voorkomt render-blocking -->
+    <script src="script.js" defer></script>
+    <script src="cookie.js" defer></script>
 </body>
 </html>

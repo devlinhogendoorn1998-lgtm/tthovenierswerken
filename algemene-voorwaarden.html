@@ -8,10 +8,8 @@
     <meta name="author" content="TT Hovenierswerken">
     <meta name="robots" content="noindex, follow">
     <title>Algemene Voorwaarden | TT Hovenierswerken</title>
-    <!-- // CSS: basis eerst, daarna pagina-specifiek -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="legal.css">
-    <link rel="stylesheet" href="cookie.css">
+    <!-- // CSS: samengevoegd tot één bestand voor minder render-blocking verzoeken -->
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
@@ -19,7 +17,7 @@
     <header class="site-header">
         <div class="container nav-container">
             <a href="index.html" class="logo-link">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo">
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo" width="132" height="72">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
                 <span></span><span></span><span></span>
@@ -159,11 +157,11 @@
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo">
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo" width="88" height="48">
                 <p>Vakkundige hoveniers actief in Baarn en omgeving. Tuinaanleg, onderhoud en hogedrukreiniging op maat.</p>
             </div>
             <div class="footer-links">
-                <h4>Diensten</h4>
+                <h3 class="footer-heading">Diensten</h3>
                 <ul>
                     <li><a href="aanleg.html">Tuinaanleg</a></li>
                     <li><a href="onderhoud.html">Tuinonderhoud</a></li>
@@ -171,14 +169,14 @@
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Juridisch</h4>
+                <h3 class="footer-heading">Juridisch</h3>
                 <ul>
                     <li><a href="privacy.html">Privacybeleid</a></li>
                     <li><a href="algemene-voorwaarden.html">Algemene Voorwaarden</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
-                <h4>Contact</h4>
+                <h3 class="footer-heading">Contact</h3>
                 <p>Baarn en omgeving</p>
                 <p>Werkgebied: 20 km radius</p>
                 <a href="index.html#offerte" class="btn btn-outline footer-btn">Offerte aanvragen</a>
@@ -200,8 +198,8 @@
         </div>
     </div>
 
-    <!-- // JavaScript -->
-    <script src="script.js"></script>
-    <script src="cookie.js"></script>
+    <!-- // JavaScript: defer voorkomt render-blocking -->
+    <script src="script.js" defer></script>
+    <script src="cookie.js" defer></script>
 </body>
 </html>

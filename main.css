@@ -1,0 +1,1833 @@
+/* ============================================
+   // MAIN.CSS – TT Hovenierswerken
+   // Samengevoegd uit style.css + index.css + cookie.css
+   // + aanleg.css + onderhoud.css + hogedruk.css + legal.css
+   // Één bestand = minder render-blocking HTTP-verzoeken
+   ============================================ */
+
+/* ============================================
+   // RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gold:          #c9a84c;
+    --gold-light:    #e8c97a;
+    --gold-dark:     #9a7a2e;
+    --dark:          #0e0e0e;
+    --dark-2:        #161616;
+    --dark-3:        #1e1e1e;
+    --dark-4:        #272727;
+    --dark-5:        #333333;
+    --text:          #e0e0e0;
+    --text-muted:    #888888;
+    --white:         #ffffff;
+    --header-height: 80px;
+    --radius:        10px;
+    --transition:    0.3s ease;
+}
+
+html {
+    background-color: var(--dark);
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: transparent;
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* // Sectie: Hexagon Canvas – vaste achtergrond laag */
+#hexagon-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+}
+
+/* Zorg dat alle directe body-children boven de canvas liggen */
+body > *:not(#hexagon-canvas):not(#cookie-banner):not(.site-header) {
+    position: relative;
+    z-index: 1;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* // CONTAINER */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* // SECTION LABEL */
+.section-label {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+}
+
+/* // SUBTITLE */
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 48px;
+}
+
+/* // KNOPPEN */
+.btn {
+    display: inline-block;
+    padding: 13px 32px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition),
+                transform var(--transition), border-color var(--transition);
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    border-color: var(--gold);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.45);
+}
+
+.btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   // HEADER – Oranje klinker achtergrond + logo
+   ============================================ */
+.site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 1000;
+}
+
+/* Klinker patroon laag */
+.site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 18px,
+            rgba(0,0,0,0.18) 18px,
+            rgba(0,0,0,0.18) 20px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 36px,
+            rgba(0,0,0,0.18) 36px,
+            rgba(0,0,0,0.18) 38px
+        ),
+        linear-gradient(135deg,
+            #c0622a 0%, #b85520 15%, #d4743a 25%,
+            #c06030 35%, #a84e1e 45%, #cc6a32 55%,
+            #b85a28 65%, #d07038 75%, #c06030 85%, #b05020 100%
+        );
+    background-size: 38px 20px, 38px 20px, 100% 100%;
+    z-index: 0;
+}
+
+/* Donkere overlay voor leesbaarheid */
+.site-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(10,10,10,0.82) 0%,
+        rgba(10,10,10,0.65) 50%,
+        rgba(10,10,10,0.75) 100%
+    );
+    z-index: 1;
+}
+
+/* // NAV CONTAINER */
+.nav-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+    padding: 0 20px;
+}
+
+/* // LOGO – links in header */
+.logo-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logo {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+}
+
+/* // NAVIGATIE */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: color var(--transition), background var(--transition);
+    letter-spacing: 0.02em;
+}
+
+nav a:hover {
+    color: var(--gold-light);
+}
+
+nav a.nav-cta {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    font-weight: 700;
+    padding: 9px 22px;
+    border-radius: 6px;
+    margin-left: 8px;
+}
+
+nav a.nav-cta:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--dark);
+    transform: translateY(-1px);
+}
+
+/* // HAMBURGER MENU */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 10;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+/* ============================================
+   // FOOTER
+   ============================================ */
+.site-footer {
+    background: rgba(22,22,22,0.92);
+    border-top: 1px solid var(--dark-5);
+    backdrop-filter: blur(8px);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 48px;
+    padding: 64px 0 48px;
+}
+
+.footer-brand p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 16px;
+    max-width: 280px;
+}
+
+.footer-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0.9);
+}
+
+/* // Footer headings: h3 gestyled als h4 voor visuele consistentie */
+.footer-heading {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+}
+
+.footer-links ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-links ul li a {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: color var(--transition);
+}
+
+.footer-links ul li a:hover {
+    color: var(--gold-light);
+}
+
+.footer-contact p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.footer-btn {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--dark-5);
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   // GEDEELDE DETAIL COMPONENTEN
+   // (gebruikt op aanleg / onderhoud / hogedruk)
+   ============================================ */
+
+/* // PAGE HERO */
+.page-hero {
+    min-height: 55vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 60px 20px 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+.page-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(10,10,10,0.92) 0%,
+        rgba(10,10,10,0.5) 60%,
+        rgba(10,10,10,0.3) 100%
+    );
+    z-index: 1;
+}
+
+.page-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+}
+
+.page-hero-content h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+
+.page-hero-content p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.75;
+    margin-bottom: 28px;
+}
+
+/* // DETAIL SECTIE */
+.detail-section {
+    background: transparent;
+    padding: 80px 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.detail-text h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.detail-text p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.85;
+    margin-bottom: 16px;
+}
+
+.detail-list {
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.detail-list li::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.detail-image {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--dark-5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.detail-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* // Section: Portfolio / Responsive Picture Component */
+.tuin-project {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.responsive-tuinfoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+/* // STAPPEN SECTIE */
+.steps-section {
+    background: transparent;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.steps-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.step-card {
+    background: rgba(39,39,39,0.80);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    transition: border-color var(--transition), transform var(--transition);
+    backdrop-filter: blur(4px);
+}
+
+.step-card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-4px);
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    font-weight: 800;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    margin-bottom: 16px;
+}
+
+.step-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* // CTA SECTIE */
+.cta-section {
+    background: rgba(30,30,30,0.70);
+    border-top: 1px solid var(--dark-5);
+    border-bottom: 1px solid var(--dark-5);
+    padding: 80px 0;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+.cta-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 14px;
+}
+
+.cta-section p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* // FORM GEDEELD */
+.form-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* ============================================
+   // RESPONSIVE: TABLET (max 900px)
+   ============================================ */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .detail-image img {
+        height: 280px;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 68px;
+    }
+
+    /* Hamburger zichtbaar */
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Nav verborgen, opent als .open */
+    nav {
+        display: none;
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: rgba(14,14,14,0.98);
+        flex-direction: column;
+        padding: 24px 20px;
+        gap: 4px;
+        border-bottom: 1px solid var(--dark-5);
+        backdrop-filter: blur(10px);
+        z-index: 999;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav a {
+        padding: 12px 16px;
+        font-size: 1rem;
+        border-radius: 6px;
+        width: 100%;
+        text-align: left;
+    }
+
+    nav a.nav-cta {
+        margin-left: 0;
+        margin-top: 8px;
+        text-align: center;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 48px 0 32px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-hero {
+        min-height: 45vh;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: KLEIN MOBIEL (max 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .logo {
+        height: 44px;
+    }
+}
+
+/* ============================================
+   // INDEX.CSS – Stijlen specifiek voor index.html
+   // Bevat: hero split, diensten/flip cards,
+   //        offerte formulier, werkgebied
+   ============================================ */
+
+/* ============================================
+   // HERO SECTIE – Split layout (tekst links, foto rechts)
+   ============================================ */
+.hero {
+    min-height: 100vh;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtiele gouden gloed rechtsbovenin */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* // HERO GRID: 2 kolommen */
+.hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+}
+
+/* // LINKS: tekst kolom */
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* // Sectie: Hero Logo – gecentreerd en vergroot */
+.hero-logo {
+    height: 160px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 4px 18px rgba(0,0,0,0.6));
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.hero-left h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 18px;
+}
+
+.hero-left p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    max-width: 480px;
+}
+
+/* // USP LIJST in hero */
+.hero-usp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.hero-usp-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.hero-usp-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* // RECHTS: foto frame */
+.hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-img-frame {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 16px;
+    overflow: visible;
+}
+
+/* Gouden rand effect */
+.hero-img-frame::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--gold), transparent 50%, var(--gold-dark));
+    z-index: 0;
+}
+
+.hero-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+    filter: brightness(0.88) contrast(1.05);
+}
+
+/* // BADGE: 10+ jaar ervaring */
+.hero-img-badge {
+    position: absolute;
+    bottom: -18px;
+    left: -18px;
+    z-index: 2;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.hero-img-badge-num {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.hero-img-badge-txt {
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   // DIENSTEN SECTIE – Flip cards met foto's
+   ============================================ */
+.services-section {
+    background-color: transparent;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.services-section h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+}
+
+/* // FLIP CARD */
+.flip-card {
+    height: 460px;
+    perspective: 1200px;
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border: 1px solid var(--dark-5);
+}
+
+/* Voorkant: foto + tekst */
+.flip-card-front {
+    background-color: rgba(39,39,39,0.82);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(4px);
+}
+
+.card-img {
+    width: 100%;
+    height: 72%;
+    object-fit: cover;
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+}
+
+.flip-card:hover .card-img {
+    transform: scale(1.04);
+}
+
+.card-front-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 22px 24px;
+    background: rgba(39,39,39,0.82);
+}
+
+.card-front-content h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.card-front-content p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.more-info {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+/* Achterkant: uitleg + knop */
+.flip-card-back {
+    background: rgba(30,30,30,0.88);
+    color: var(--white);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 36px 28px;
+    text-align: center;
+    border: 1px solid var(--gold-dark);
+    backdrop-filter: blur(6px);
+}
+
+.flip-card-back h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+}
+
+.flip-card-back p {
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 24px;
+}
+
+.card-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    padding: 10px 24px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.card-btn:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   // OFFERTE SECTIE – Uitgebreid formulier
+   ============================================ */
+.quote-section {
+    background-color: transparent;
+    padding: 100px 0;
+}
+
+.quote-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.quote-intro h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.quote-intro p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+.quote-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quote-benefits li {
+    color: var(--text);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* // FORMULIER */
+.quote-form {
+    background: rgba(30,30,30,0.85);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 40px;
+    backdrop-filter: blur(6px);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+}
+
+.required {
+    color: var(--gold);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-5);
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.price-indicator {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dark);
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.price-indicator strong {
+    color: var(--gold-light);
+    font-size: 1.1rem;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    margin-top: 4px;
+}
+
+.form-privacy {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 12px;
+}
+
+/* ============================================
+   // WERKGEBIED SECTIE – 20 km rond Baarn
+   ============================================ */
+.werkgebied-section {
+    background: transparent;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.werkgebied-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.plaatsen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 40px 0 24px;
+}
+
+.plaats-item {
+    background: rgba(39,39,39,0.75);
+    border: 1px solid var(--dark-5);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.plaats-item:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+    background: rgba(201,168,76,0.06);
+}
+
+.werkgebied-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ============================================
+   // RESPONSIVE: TABLET (max 900px) – index
+   ============================================ */
+@media (max-width: 900px) {
+    .hero-split {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-left {
+        align-items: center;
+        order: 2;
+        text-align: center;
+    }
+
+    .hero-left p {
+        max-width: 100%;
+    }
+
+    .hero-usp-list {
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .hero-right {
+        order: 1;
+    }
+
+    .hero-img {
+        height: 300px;
+    }
+
+    .hero-img-badge {
+        bottom: -14px;
+        left: 14px;
+    }
+
+    .quote-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px) – index
+   ============================================ */
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding: calc(var(--header-height) + 32px) 20px 48px;
+    }
+
+    .hero-split {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+    }
+
+    .hero-left {
+        align-items: center;
+        order: 2;
+    }
+
+    .hero-logo {
+        height: 48px;
+        margin-bottom: 20px;
+    }
+
+    .hero-right {
+        order: 1;
+    }
+
+    .hero-img {
+        height: 240px;
+    }
+
+    .hero-img-badge {
+        bottom: -12px;
+        left: 12px;
+        padding: 10px 14px;
+    }
+
+    .hero-img-badge-num {
+        font-size: 1.5rem;
+    }
+
+    .hero-usp-list {
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .flip-card {
+        height: 380px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .quote-form {
+        padding: 28px 20px;
+    }
+
+    .plaatsen-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: KLEIN MOBIEL (max 480px) – index
+   ============================================ */
+@media (max-width: 480px) {
+    .flip-card {
+        height: 360px;
+    }
+
+    .card-img {
+        height: 55%;
+    }
+
+    .plaatsen-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ============================================
+   // COOKIE BANNER – TT Hovenierswerken
+   // CLS-fix: position:fixed + transform-gebaseerde animatie
+   // Banner valt buiten de normale documentflow,
+   // veroorzaakt daardoor GEEN layout-verschuivingen
+   ============================================ */
+
+/* // Cookie Banner: fixed onderaan het scherm, buiten documentflow */
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: var(--dark-3);
+    border-top: 2px solid var(--gold);
+    box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.55);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    /* // CLS-fix: gebruik transform ipv max-height animatie
+       transform beïnvloedt de documentflow NIET, max-height wel */
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.45s ease,
+                visibility 0s linear 0.45s;
+}
+
+/* // Cookie Banner: zichtbaar wanneer actief */
+#cookie-banner.visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.45s ease,
+                visibility 0s linear 0s;
+}
+
+/* // Cookie Banner: verborgen na keuze */
+#cookie-banner.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.45s ease,
+                visibility 0s linear 0.45s;
+}
+
+/* // Cookie Banner: tekst blok */
+.cookie-text {
+    flex: 1;
+    min-width: 220px;
+}
+
+.cookie-text p {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cookie-text p strong {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.cookie-text a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+}
+
+.cookie-text a:hover {
+    color: var(--gold);
+}
+
+/* // Cookie Banner: knoppen groep */
+.cookie-actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+/* // Cookie Banner: accepteer knop (goud) */
+#cookie-accept {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background var(--transition), transform 0.15s ease;
+    white-space: nowrap;
+}
+
+#cookie-accept:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+#cookie-accept:active {
+    transform: translateY(0);
+}
+
+/* // Cookie Banner: weiger knop (outline) */
+#cookie-decline {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--dark-5);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition);
+    white-space: nowrap;
+}
+
+#cookie-decline:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+}
+
+/* // Cookie Banner: gouden accent lijn links */
+#cookie-banner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+    border-radius: 0 2px 2px 0;
+}
+
+/* // Cookie Banner: responsive mobiel */
+@media (max-width: 600px) {
+    #cookie-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    #cookie-banner.visible {
+        padding: 18px 18px 22px;
+    }
+
+    .cookie-text {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .cookie-actions {
+        width: 100%;
+    }
+
+    #cookie-accept,
+    #cookie-decline {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/* ============================================
+   // PAGINA-SPECIFIEKE STIJLEN
+   // Samengevoegd uit aanleg.css + onderhoud.css
+   // + hogedruk.css + legal.css
+   ============================================ */
+
+/* // Gedeeld: detail afbeelding accent + lijst highlight + stap hover + hero knop */
+.detail-image {
+    border-color: var(--gold-dark);
+}
+
+.detail-list li strong {
+    color: var(--gold-light);
+}
+
+.step-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+.page-hero-content .btn-primary {
+    padding: 14px 36px;
+    font-size: 1rem;
+}
+
+/* // Onderhoud: alternatieve achtergrond sectie */
+.detail-section.alt-bg {
+    background: rgba(22,22,22,0.45);
+}
+
+/* // Hogedruk: PRIJSBOX – Tarief en minimumprijs weergave */
+.price-box {
+    display: flex;
+    align-items: center;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid var(--gold-dark);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    margin-top: 28px;
+    gap: 0;
+}
+
+.price-box-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.price-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gold-light);
+}
+
+.price-box-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--dark-5);
+    margin: 0 28px;
+}
+
+/* // Hogedruk: Prijsbadge knop in hero (niet klikbaar) */
+.page-hero-content .btn-outline[style*="cursor: default"] {
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+/* ============================================
+   // LEGAL PAGES – Privacy & Algemene Voorwaarden
+   ============================================ */
+
+/* // Sectie: Page Hero – compacte hero voor legal pagina's */
+.legal-hero {
+    background: var(--dark-2);
+    border-bottom: 1px solid var(--dark-5);
+    padding: 60px 20px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.legal-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.legal-hero .section-label {
+    margin-bottom: 14px;
+}
+
+.legal-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.legal-hero p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* // Sectie: Legal Content – hoofdinhoud */
+.legal-content {
+    padding: 72px 0 96px;
+}
+
+.legal-body {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+/* // Sectie: Legal Artikel blokken */
+.legal-article {
+    margin-bottom: 52px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--dark-5);
+}
+
+.legal-article:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.legal-article h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legal-article h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legal-article p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+    margin-bottom: 14px;
+}
+
+.legal-article p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-article ul {
+    list-style: none;
+    margin: 14px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.legal-article ul li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 20px;
+    position: relative;
+}
+
+.legal-article ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dark);
+    font-weight: 700;
+}
+
+.legal-article a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+}
+
+.legal-article a:hover {
+    color: var(--gold);
+}
+
+/* // Sectie: Legal Datum badge */
+.legal-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin-bottom: 48px;
+}
+
+/* // Sectie: Terug knop */
+.legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+    transition: color var(--transition);
+}
+
+.legal-back:hover {
+    color: var(--gold-light);
+}
+
+.legal-back::before {
+    content: '←';
+    font-size: 1rem;
+}
+
+/* // Sectie: Contact CTA onderaan */
+.legal-cta {
+    background: rgba(30,30,30,0.70);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    text-align: center;
+    margin-top: 64px;
+    backdrop-filter: blur(6px);
+}
+
+.legal-cta h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.legal-cta p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL – pagina-specifiek
+   ============================================ */
+@media (max-width: 768px) {
+    .page-hero-content .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .price-box {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .price-box-divider {
+        width: 100%;
+        height: 1px;
+        margin: 0;
+    }
+
+    .price-box-item {
+        align-items: center;
+        text-align: center;
+    }
+
+    .legal-hero {
+        padding: 48px 20px 36px;
+    }
+
+    .legal-content {
+        padding: 48px 0 64px;
+    }
+
+    .legal-article {
+        margin-bottom: 36px;
+        padding-bottom: 36px;
+    }
+
+    .legal-cta {
+        padding: 28px 20px;
+    }
+}
