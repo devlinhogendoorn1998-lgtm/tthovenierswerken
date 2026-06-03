@@ -331,6 +331,19 @@
         </div>
     </div>
 
+    <!-- // EmailJS SDK: asynchroon geladen, geen render-blocking -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- // Succes Modal: toont bevestiging na verzenden formulier -->
+    <div id="successModal" class="success-modal" role="dialog" aria-modal="true" aria-labelledby="successTitle" style="display:none;">
+        <div class="success-modal-box">
+            <div class="success-icon">✓</div>
+            <h3 id="successTitle">Bericht ontvangen!</h3>
+            <p>Wij hebben uw bericht binnen en nemen binnen <strong>24 uur</strong> contact op voor een afspraak.</p>
+            <button class="btn btn-primary" id="successClose">Sluiten</button>
+        </div>
+    </div>
+
     <!-- // JavaScript: defer voorkomt render-blocking -->
     <script src="script.js" defer></script>
     <script src="cookie.js" defer></script>

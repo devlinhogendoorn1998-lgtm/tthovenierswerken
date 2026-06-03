@@ -216,10 +216,35 @@
     }
 })();
 
-// Sectie: Offerte formulier – validatie & verzenden via mailto
+// Sectie: Offerte formulier – validatie & verzenden via EmailJS
 (function () {
+    // EmailJS initialisatie met public key
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init('wtlD1ny4zM9wUaf-y');
+    }
+
     const form = document.getElementById('quoteForm');
     if (!form) return;
+
+    // Succes modal elementen
+    const successModal = document.getElementById('successModal');
+    const successClose = document.getElementById('successClose');
+
+    // Sluit modal bij klik op knop of buiten de box
+    if (successClose) {
+        successClose.addEventListener('click', function () {
+            successModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    }
+    if (successModal) {
+        successModal.addEventListener('click', function (e) {
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -260,7 +285,7 @@
             return;
         }
 
-        // Bouw e-mailinhoud op uit formuliervelden
+        // Bouw template parameters op voor EmailJS
         const dienstLabels = {
             aanleg:    'Tuinaanleg',
             onderhoud: 'Tuinonderhoud',
@@ -273,50 +298,58 @@
 
         const dienstLabel   = dienstLabels[dienst.value] || dienst.value;
         const oppervlakte   = (oppervlakteEl && oppervlakteEl.value) ? oppervlakteEl.value + ' m²' : 'Niet opgegeven';
-        const bericht       = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
+        const berichtTekst  = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
 
-        const onderwerp = 'Offerte aanvraag – ' + naam.value.trim();
+        // Template variabelen – komen overeen met {{variabele}} in EmailJS template
+        const templateParams = {
+            naam:        naam.value.trim(),
+            telefoon:    telefoon.value.trim(),
+            email:       email.value.trim(),
+            adres:       adres.value.trim(),
+            dienst:      dienstLabel,
+            oppervlakte: dienst.value === 'hogedruk' ? oppervlakte : 'Niet van toepassing',
+            bericht:     berichtTekst
+        };
 
-        const body =
-            'Naam: ' + naam.value.trim() + '\n' +
-            'Telefoon: ' + telefoon.value.trim() + '\n' +
-            'E-mail: ' + email.value.trim() + '\n' +
-            'Adres / Woonplaats: ' + adres.value.trim() + '\n' +
-            'Gewenste dienst: ' + dienstLabel + '\n' +
-            (dienst.value === 'hogedruk' ? 'Oppervlakte: ' + oppervlakte + '\n' : '') +
-            '\nOmschrijving:\n' + bericht;
-
-        // Open standaard e-mailclient met vooringevulde mail
-        window.location.href =
-            'mailto:info@tthovenierswerken.nl' +
-            '?subject=' + encodeURIComponent(onderwerp) +
-            '&body='    + encodeURIComponent(body);
-
-        // Succes feedback
+        // Verzendknop: laadstatus
         const submitBtn = form.querySelector('.submit-btn');
         const origineleTekst = submitBtn ? submitBtn.textContent : '';
-
         if (submitBtn) {
-            submitBtn.textContent = '✓ E-mailclient geopend!';
-            submitBtn.style.background = 'linear-gradient(135deg, #4caf7d, #2e7d52)';
-            submitBtn.style.borderColor = '#4caf7d';
+            submitBtn.textContent = 'Verzenden...';
             submitBtn.disabled = true;
         }
 
-        // Reset na 4 seconden
-        setTimeout(function () {
-            form.reset();
-            const hogedrukFields = document.getElementById('hogedrukFields');
-            const priceIndicator = document.getElementById('priceIndicator');
-            if (hogedrukFields) hogedrukFields.style.display = 'none';
-            if (priceIndicator) priceIndicator.style.display = 'none';
-            if (submitBtn) {
-                submitBtn.textContent = origineleTekst;
-                submitBtn.style.background = '';
-                submitBtn.style.borderColor = '';
-                submitBtn.disabled = false;
-            }
-        }, 4000);
+        // Verstuur via EmailJS
+        emailjs.send('LtEHc1nA20ch', 'template_d57hl8b', templateParams)
+            .then(function () {
+                // Toon succes modal
+                if (successModal) {
+                    successModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+
+                // Reset formulier
+                form.reset();
+                const hogedrukFields = document.getElementById('hogedrukFields');
+                const priceIndicator = document.getElementById('priceIndicator');
+                if (hogedrukFields) hogedrukFields.style.display = 'none';
+                if (priceIndicator) priceIndicator.style.display = 'none';
+
+                // Reset knop
+                if (submitBtn) {
+                    submitBtn.textContent = origineleTekst;
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(function (err) {
+                console.error('EmailJS fout:', err);
+                // Herstel knop bij fout
+                if (submitBtn) {
+                    submitBtn.textContent = origineleTekst;
+                    submitBtn.disabled = false;
+                }
+                alert('Er is iets misgegaan bij het verzenden. Probeer het opnieuw of neem direct contact op.');
+            });
     });
 
     // Verwijder rode rand bij typen
