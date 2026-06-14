@@ -57,7 +57,7 @@ body {
 }
 
 /* Zorg dat alle directe body-children boven de canvas liggen */
-body > *:not(#hexagon-canvas):not(#cookie-banner):not(.site-header) {
+body > *:not(#hexagon-canvas):not(#cookie-banner):not(.site-header):not(.whatsapp-float):not(.success-modal) {
     position: relative;
     z-index: 1;
 }
@@ -1916,5 +1916,167 @@ nav a.nav-cta:hover {
 
     .success-modal-box h3 {
         font-size: 1.35rem;
+    }
+}
+
+/* ============================================
+   // Sectie: Navbar Instagram icoon
+   ============================================ */
+.nav-insta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    transition: color var(--transition), transform var(--transition);
+    margin-left: 4px;
+}
+
+.nav-insta:hover {
+    color: var(--gold-light);
+    transform: scale(1.15);
+}
+
+/* ============================================
+   // Sectie: Zwevende WhatsApp knop
+   ============================================ */
+/* // Sectie: WhatsApp zwevende knop – gefixeerd rechtsonder op elk apparaat */
+.whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    left: auto;
+    top: auto;
+    z-index: 10000;
+    width: 58px;
+    height: 58px;
+    background: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+    transition: transform var(--transition), box-shadow var(--transition);
+    text-decoration: none;
+    /* Voorkomt dat de knop achter andere fixed elementen verdwijnt */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    /* Zorg dat de knop altijd klikbaar is */
+    pointer-events: auto;
+    /* Voorkomt dat iOS Safari de knop wegsnijdt */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1) translateZ(0);
+    box-shadow: 0 6px 28px rgba(37, 211, 102, 0.65);
+}
+
+/* // WhatsApp tooltip label – verborgen op touch-apparaten */
+.whatsapp-tooltip {
+    position: absolute;
+    right: 68px;
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background: #25d366;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition), transform var(--transition);
+    /* Verberg tooltip op touch-apparaten (geen hover) */
+    display: none;
+}
+
+/* Toon tooltip alleen op apparaten met echte hover (muis) */
+@media (hover: hover) and (pointer: fine) {
+    .whatsapp-tooltip {
+        display: block;
+    }
+
+    .whatsapp-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -6px;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-left-color: #25d366;
+        border-right: none;
+    }
+
+    .whatsapp-float:hover .whatsapp-tooltip {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+/* ============================================
+   // Sectie: Footer social links
+   ============================================ */
+.footer-social {
+    margin-top: 14px;
+    display: flex;
+    gap: 12px;
+}
+
+.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--gold);
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: color var(--transition), transform var(--transition);
+}
+
+.footer-social-link:hover {
+    color: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+/* // WhatsApp: responsive aanpassingen per schermgrootte */
+@media (max-width: 768px) {
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 54px;
+        height: 54px;
+        /* Ruimte boven cookie banner op mobiel */
+        z-index: 10000;
+    }
+}
+
+@media (max-width: 480px) {
+    .whatsapp-float {
+        bottom: 16px;
+        right: 16px;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* // WhatsApp: safe-area inset voor iPhone met notch/home bar */
+@supports (bottom: env(safe-area-inset-bottom)) {
+    .whatsapp-float {
+        bottom: calc(28px + env(safe-area-inset-bottom));
+    }
+
+    @media (max-width: 768px) {
+        .whatsapp-float {
+            bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .whatsapp-float {
+            bottom: calc(16px + env(safe-area-inset-bottom));
+        }
     }
 }
