@@ -165,57 +165,6 @@
     onScroll();
 })();
 
-// Sectie: Offerte formulier – dienst selectie & prijscalculator
-(function () {
-    const dienstSelect = document.getElementById('dienst');
-    const hogedrukFields = document.getElementById('hogedrukFields');
-    const priceIndicator = document.getElementById('priceIndicator');
-    const calculatedPrice = document.getElementById('calculatedPrice');
-    const oppervlakteInput = document.getElementById('oppervlakte');
-
-    if (!dienstSelect) return;
-
-    // Toon/verberg hogedruk velden op basis van dienst keuze
-    dienstSelect.addEventListener('change', function () {
-        const val = this.value;
-
-        if (val === 'hogedruk') {
-            hogedrukFields.style.display = 'block';
-            // Trigger berekening als er al een waarde is
-            if (oppervlakteInput && oppervlakteInput.value) {
-                berekenPrijs(parseFloat(oppervlakteInput.value));
-            }
-        } else {
-            if (hogedrukFields) hogedrukFields.style.display = 'none';
-            if (priceIndicator) priceIndicator.style.display = 'none';
-        }
-    });
-
-    // Prijsberekening hogedrukreiniging
-    function berekenPrijs(m2) {
-        if (!priceIndicator || !calculatedPrice) return;
-        const TARIEF = 7;
-        const MINIMUM = 250;
-        const berekend = Math.max(m2 * TARIEF, MINIMUM);
-        calculatedPrice.textContent = '€' + berekend.toLocaleString('nl-NL', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }) + ',-';
-        priceIndicator.style.display = 'block';
-    }
-
-    if (oppervlakteInput) {
-        oppervlakteInput.addEventListener('input', function () {
-            const val = parseFloat(this.value);
-            if (val > 0 && dienstSelect.value === 'hogedruk') {
-                berekenPrijs(val);
-            } else {
-                if (priceIndicator) priceIndicator.style.display = 'none';
-            }
-        });
-    }
-})();
-
 // Sectie: Offerte formulier – validatie & verzenden via EmailJS
 (function () {
     // EmailJS initialisatie met public key
@@ -289,15 +238,12 @@
         const dienstLabels = {
             aanleg:    'Tuinaanleg',
             onderhoud: 'Tuinonderhoud',
-            hogedruk:  'Hogedrukreiniging',
             meerdere:  'Meerdere diensten'
         };
 
-        const oppervlakteEl = document.getElementById('oppervlakte');
         const berichtEl     = document.getElementById('bericht');
 
         const dienstLabel   = dienstLabels[dienst.value] || dienst.value;
-        const oppervlakte   = (oppervlakteEl && oppervlakteEl.value) ? oppervlakteEl.value + ' m²' : 'Niet opgegeven';
         const berichtTekst  = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
 
         // Template variabelen – komen overeen met {{variabele}} in EmailJS template
@@ -308,7 +254,6 @@
             email:       email.value.trim(),
             adres:       adres.value.trim(),
             dienst:      dienstLabel,
-            oppervlakte: dienst.value === 'hogedruk' ? oppervlakte : 'Niet van toepassing',
             bericht:     berichtTekst
         };
 
@@ -331,10 +276,6 @@
 
                 // Reset formulier
                 form.reset();
-                const hogedrukFields = document.getElementById('hogedrukFields');
-                const priceIndicator = document.getElementById('priceIndicator');
-                if (hogedrukFields) hogedrukFields.style.display = 'none';
-                if (priceIndicator) priceIndicator.style.display = 'none';
 
                 // Reset knop
                 if (submitBtn) {
