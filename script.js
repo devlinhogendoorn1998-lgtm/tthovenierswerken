@@ -165,13 +165,67 @@
     onScroll();
 })();
 
-// Sectie: Offerte formulier – validatie & verzenden via EmailJS
+// Sectie: EmailJS Core – gedeelde configuratie & verzendfunctie voor ALLE formulieren
+// Zowel het offerteformulier (aanleg/onderhoud/beregening/meerdere) op index.html
+// als de beregening-rekentool op beregening.html vallen onder dezelfde EmailJS-koppeling ("1 ding").
+var TT_EMAILJS_PUBLIC_KEY  = 'wtlD1ny4zM9wUaf-y';
+var TT_EMAILJS_SERVICE_ID  = 'service_02uys6i';
+var TT_EMAILJS_TEMPLATE_ID = 'template_d57hl8b';
+
 (function () {
-    // EmailJS initialisatie met public key
+    // Eenmalige EmailJS initialisatie – wordt door alle formulieren op de site herbruikt
     if (typeof emailjs !== 'undefined') {
-        emailjs.init('wtlD1ny4zM9wUaf-y');
+        emailjs.init(TT_EMAILJS_PUBLIC_KEY);
+    } else {
+        console.error('EmailJS SDK is niet gevonden. Controleer of het EmailJS <script> correct geladen is vóórdat script.js uitgevoerd wordt.');
+    }
+})();
+
+// // Gedeelde verzendfunctie: gebruikt door zowel het offerteformulier als de beregening-rekentool.
+// // Zo lopen alle aanvragen (aanleg, onderhoud, beregening, meerdere) via exact dezelfde EmailJS-koppeling.
+function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
+    const origineleTekst = submitBtn ? submitBtn.textContent : '';
+
+    if (submitBtn) {
+        submitBtn.textContent = 'Verzenden...';
+        submitBtn.disabled = true;
     }
 
+    // Vangnet: als de EmailJS SDK niet geladen is, direct duidelijke foutmelding tonen
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS fout: SDK niet beschikbaar op het moment van verzenden.');
+        if (submitBtn) {
+            submitBtn.textContent = origineleTekst;
+            submitBtn.disabled = false;
+        }
+        alert('Er is iets misgegaan: het verzendsysteem kon niet worden geladen. Probeer de pagina te vernieuwen of neem contact op via info@tthovenierswerken.nl.');
+        if (onError) onError();
+        return;
+    }
+
+    emailjs.send(TT_EMAILJS_SERVICE_ID, TT_EMAILJS_TEMPLATE_ID, templateParams)
+        .then(function (response) {
+            if (submitBtn) {
+                submitBtn.textContent = origineleTekst;
+                submitBtn.disabled = false;
+            }
+            if (onSuccess) onSuccess(response);
+        })
+        .catch(function (err) {
+            // // Log de volledige EmailJS-foutmelding in de console voor debugging
+            console.error('EmailJS fout:', err);
+            if (submitBtn) {
+                submitBtn.textContent = origineleTekst;
+                submitBtn.disabled = false;
+            }
+            const detail = (err && err.text) ? ' (' + err.text + ')' : '';
+            alert('Er is iets misgegaan bij het verzenden' + detail + '. Probeer het opnieuw of neem direct contact op via info@tthovenierswerken.nl.');
+            if (onError) onError(err);
+        });
+}
+
+// Sectie: Offerte formulier – validatie & verzenden via EmailJS (index.html – aanleg/onderhoud/beregening/meerdere)
+(function () {
     const form = document.getElementById('quoteForm');
     if (!form) return;
 
@@ -255,44 +309,22 @@
             email:       email.value.trim(),
             adres:       adres.value.trim(),
             dienst:      dienstLabel,
-            bericht:     berichtTekst
+            bericht:     berichtTekst,
+            to_email:    'info@tthovenierswerken.nl'
         };
 
-        // Verzendknop: laadstatus
         const submitBtn = form.querySelector('.submit-btn');
-        const origineleTekst = submitBtn ? submitBtn.textContent : '';
-        if (submitBtn) {
-            submitBtn.textContent = 'Verzenden...';
-            submitBtn.disabled = true;
-        }
 
-        // Verstuur via EmailJS
-        emailjs.send('service_02uys6i', 'template_d57hl8b', templateParams)
-            .then(function () {
-                // Toon succes modal
-                if (successModal) {
-                    successModal.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                }
-
-                // Reset formulier
-                form.reset();
-
-                // Reset knop
-                if (submitBtn) {
-                    submitBtn.textContent = origineleTekst;
-                    submitBtn.disabled = false;
-                }
-            })
-            .catch(function (err) {
-                console.error('EmailJS fout:', err);
-                // Herstel knop bij fout
-                if (submitBtn) {
-                    submitBtn.textContent = origineleTekst;
-                    submitBtn.disabled = false;
-                }
-                alert('Er is iets misgegaan bij het verzenden. Probeer het opnieuw of neem direct contact op.');
-            });
+        // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als de beregening-rekentool
+        ttVerzendAanvraag(templateParams, submitBtn, function () {
+            // Toon succes modal
+            if (successModal) {
+                successModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            // Reset formulier
+            form.reset();
+        });
     });
 
     // Verwijder rode rand bij typen
@@ -411,11 +443,6 @@
     const calcForm = document.getElementById('calcForm');
     if (!calcForm) return;
 
-    // EmailJS initialisatie (herbruikt dezelfde public key als het homepage-formulier)
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init('wtlD1ny4zM9wUaf-y');
-    }
-
     const START_TARIEF = 80; // // Starttarief in euro, excl. btw
 
     const steps          = calcForm.querySelectorAll('.calc-step');
@@ -533,7 +560,7 @@
         });
     });
 
-    // // Verzenden: EmailJS naar info@tthovenierswerken.nl
+    // // Verzenden: via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als het offerteformulier
     calcForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -595,41 +622,23 @@
         };
 
         const submitBtn = calcForm.querySelector('.submit-btn');
-        const origineleTekst = submitBtn ? submitBtn.textContent : '';
-        if (submitBtn) {
-            submitBtn.textContent = 'Verzenden...';
-            submitBtn.disabled = true;
-        }
 
-        emailjs.send('service_02uys6i', 'template_d57hl8b', templateParams)
-            .then(function () {
-                const successModal = document.getElementById('successModal');
-                if (successModal) {
-                    successModal.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                }
-                calcForm.reset();
-                grondCards.forEach(function (c) { c.classList.remove('selected'); });
-                state = { grond: null, price: null, meters: 10 };
-                if (metersValueSpan) metersValueSpan.textContent = '10';
-                updatePricePreview();
-                goToStep(1);
-                const nextBtn = calcForm.querySelector('.calc-next[data-next="2"]');
-                if (nextBtn) nextBtn.disabled = true;
-
-                if (submitBtn) {
-                    submitBtn.textContent = origineleTekst;
-                    submitBtn.disabled = false;
-                }
-            })
-            .catch(function (err) {
-                console.error('EmailJS fout (calculator):', err);
-                if (submitBtn) {
-                    submitBtn.textContent = origineleTekst;
-                    submitBtn.disabled = false;
-                }
-                alert('Er is iets misgegaan bij het verzenden. Probeer het opnieuw of neem direct contact op via info@tthovenierswerken.nl.');
-            });
+        // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als het offerteformulier
+        ttVerzendAanvraag(templateParams, submitBtn, function () {
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                successModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            calcForm.reset();
+            grondCards.forEach(function (c) { c.classList.remove('selected'); });
+            state = { grond: null, price: null, meters: 10 };
+            if (metersValueSpan) metersValueSpan.textContent = '10';
+            updatePricePreview();
+            goToStep(1);
+            const nextBtn = calcForm.querySelector('.calc-next[data-next="2"]');
+            if (nextBtn) nextBtn.disabled = true;
+        });
     });
 
     // // Verwijder rode rand bij typen
