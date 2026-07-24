@@ -356,24 +356,6 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
     });
 })();
 
-// Sectie: Flip cards – touch support voor mobiel
-(function () {
-    document.querySelectorAll('.flip-card').forEach(function (card) {
-        card.addEventListener('click', function () {
-            // Op touch-apparaten: toggle klasse voor flip
-            if (window.matchMedia('(hover: none)').matches) {
-                this.classList.toggle('flipped');
-                const inner = this.querySelector('.flip-card-inner');
-                if (inner) {
-                    inner.style.transform = this.classList.contains('flipped')
-                        ? 'rotateY(180deg)'
-                        : '';
-                }
-            }
-        });
-    });
-})();
-
 // Sectie: Beregening – Spoed Modal (storing & reparatie)
 (function () {
     const spoedBtn   = document.getElementById('spoedBtn');

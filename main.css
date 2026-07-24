@@ -862,155 +862,6 @@ nav a.nav-cta:hover {
 }
 
 /* ============================================
-   // DIENSTEN SECTIE – Flip cards met foto's
-   ============================================ */
-.services-section {
-    background-color: transparent;
-    padding: 100px 0;
-    text-align: center;
-}
-
-.services-section h2 {
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 800;
-    color: var(--white);
-    margin-bottom: 12px;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 28px;
-}
-
-/* // FLIP CARD */
-.flip-card {
-    height: 460px;
-    perspective: 1200px;
-    cursor: pointer;
-}
-
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
-    transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    overflow: hidden;
-    border: 1px solid var(--dark-5);
-}
-
-/* Voorkant: foto + tekst */
-.flip-card-front {
-    background-color: rgba(39,39,39,0.82);
-    display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(4px);
-}
-
-.card-img {
-    width: 100%;
-    height: 72%;
-    object-fit: cover;
-    flex-shrink: 0;
-    transition: transform 0.4s ease;
-}
-
-.flip-card:hover .card-img {
-    transform: scale(1.04);
-}
-
-.card-front-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 22px 24px;
-    background: rgba(39,39,39,0.82);
-}
-
-.card-front-content h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 8px;
-}
-
-.card-front-content p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-}
-
-.more-info {
-    display: inline-block;
-    margin-top: 12px;
-    font-size: 0.82rem;
-    color: var(--gold);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-}
-
-/* Achterkant: uitleg + knop */
-.flip-card-back {
-    background: rgba(30,30,30,0.88);
-    color: var(--white);
-    transform: rotateY(180deg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 36px 28px;
-    text-align: center;
-    border: 1px solid var(--gold-dark);
-    backdrop-filter: blur(6px);
-}
-
-.flip-card-back h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    margin-bottom: 16px;
-}
-
-.flip-card-back p {
-    font-size: 0.92rem;
-    color: var(--text);
-    line-height: 1.75;
-    margin-bottom: 24px;
-}
-
-.card-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: var(--dark);
-    padding: 10px 24px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    border-radius: 6px;
-    transition: background var(--transition), transform var(--transition);
-}
-
-.card-btn:hover {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    transform: translateY(-2px);
-}
-
-/* ============================================
    // OFFERTE SECTIE – Uitgebreid formulier
    ============================================ */
 .quote-section {
@@ -1199,6 +1050,129 @@ nav a.nav-cta:hover {
 }
 
 /* ============================================
+   // ROUTE SECTIE – Directe doorverwijzing naar aanleg.html / onderhoud.html
+   // Doel: bezoekers met concrete zoekintentie direct naar de juiste
+   // dienst-landingspagina sturen (conversie & SEO-routing)
+   ============================================ */
+.route-section {
+    background: transparent;
+    padding: 90px 0;
+    text-align: center;
+}
+
+.route-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+/* // Grid: 3 gelijke kolommen (auto-fit) voor de dienst-kaarten – aanleg / onderhoud / beregening */
+.route-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+    margin-top: 48px;
+    text-align: left;
+}
+
+/* // Route-kaart: volledige foto-achtergrond met donkere overlay + tekst onderin */
+.route-card {
+    position: relative;
+    display: block;
+    min-height: 340px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--dark-5);
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.route-card:hover,
+.route-card:focus-visible {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+}
+
+/* // Achtergrondfoto vult de volledige kaart */
+.route-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 0.5s ease;
+}
+
+.route-card:hover .route-card-img {
+    transform: scale(1.06);
+}
+
+/* // Donkere gradient-overlay voor leesbaarheid van de tekst */
+.route-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(10,10,10,0.94) 5%,
+        rgba(10,10,10,0.55) 55%,
+        rgba(10,10,10,0.15) 100%
+    );
+    z-index: 1;
+}
+
+/* // Tekstinhoud: onderin de kaart uitgelijnd */
+.route-card-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+}
+
+.route-card-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+
+.route-card-content h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+.route-card-content p {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.65;
+    margin-bottom: 18px;
+    max-width: 420px;
+}
+
+.route-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    color: var(--gold-light);
+    transition: gap var(--transition), color var(--transition);
+}
+
+.route-card:hover .route-card-cta {
+    color: var(--gold);
+    gap: 12px;
+}
+
+/* ============================================
    // RESPONSIVE: TABLET (max 900px) – index
    ============================================ */
 @media (max-width: 900px) {
@@ -1241,6 +1215,11 @@ nav a.nav-cta:hover {
     .quote-wrapper {
         grid-template-columns: 1fr;
         gap: 40px;
+    }
+
+    /* // Route-kaarten: op tablet nog steeds naast elkaar maar iets compacter */
+    .route-card {
+        min-height: 300px;
     }
 }
 
@@ -1304,14 +1283,6 @@ nav a.nav-cta:hover {
         text-align: center;
     }
 
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .flip-card {
-        height: 380px;
-    }
-
     .form-row {
         grid-template-columns: 1fr;
     }
@@ -1323,20 +1294,26 @@ nav a.nav-cta:hover {
     .plaatsen-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
+
+    /* // Route-kaarten: stapelen op mobiel voor maximale leesbaarheid */
+    .route-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .route-card {
+        min-height: 260px;
+    }
+
+    .route-card-content {
+        padding: 24px;
+    }
 }
 
 /* ============================================
    // RESPONSIVE: KLEIN MOBIEL (max 480px) – index
    ============================================ */
 @media (max-width: 480px) {
-    .flip-card {
-        height: 360px;
-    }
-
-    .card-img {
-        height: 55%;
-    }
-
     .plaatsen-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -2081,72 +2058,3 @@ nav a.nav-cta:hover {
     }
 }
 
-/* ============================================
-   // Sectie: Mini sproeier-animatie – Beregening dienst-kaart op homepage
-   // Zeer lichte CSS-only animatie, geen extra assets/HTTP-requests
-   ============================================ */
-.beregening-card-visual {
-    position: relative;
-    width: 100%;
-    height: 72%;
-    background: linear-gradient(160deg, rgba(20,32,30,0.9) 0%, rgba(30,30,30,0.9) 100%);
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.beregening-card-visual::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 18%;
-    background: linear-gradient(to right, rgba(90,170,120,0.3), rgba(60,130,90,0.45), rgba(90,170,120,0.3));
-}
-
-.mini-sprinkler {
-    position: absolute;
-    bottom: 18%;
-    width: 6px;
-    height: 20px;
-    background: linear-gradient(to bottom, var(--gold-light), var(--gold-dark));
-    border-radius: 2px;
-    transform: translateX(-50%) translateY(18px);
-    animation: miniSprinklerPop 6s ease-in-out infinite;
-    animation-delay: var(--d, 0s);
-}
-
-.mini-sprinkler::after {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: 50%;
-    width: 1.5px;
-    height: 0;
-    background: rgba(150,210,230,0.85);
-    transform: translateX(-50%);
-    animation: miniSprinklerSpray 6s ease-in-out infinite;
-    animation-delay: var(--d, 0s);
-}
-
-@keyframes miniSprinklerPop {
-    0%, 8%    { transform: translateX(-50%) translateY(18px); }
-    18%, 65%  { transform: translateX(-50%) translateY(0); }
-    78%, 100% { transform: translateX(-50%) translateY(18px); }
-}
-
-@keyframes miniSprinklerSpray {
-    0%, 20%   { height: 0; opacity: 0; }
-    26%, 58%  { height: 14px; opacity: 0.8; }
-    64%, 100% { height: 0; opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .mini-sprinkler,
-    .mini-sprinkler::after {
-        animation: none !important;
-    }
-    .mini-sprinkler {
-        transform: translateX(-50%) translateY(0);
-    }
-}

@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <!-- // Meta: SEO & Social -->
+    <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking Fundament -->
+    <!-- // Deze tag staat zo hoog mogelijk in de <head> geladen, conform de installatie-richtlijnen van Google Ads. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        // // Config: basis Ads-koppeling. Conversie-events ('event', 'conversion', {...}) worden per formulier toegevoegd in script.js.
+        gtag('config', 'AW-18112459573');
+    </script>
+
+    <!-- // Meta: SEO & Social – Homepage richt zich op algemene & regionale zoekopdrachten -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TT Hovenierswerken – Specialist in tuinaanleg en tuinonderhoud in Baarn en omgeving (20 km radius). Vraag vrijblijvend een offerte aan.">
-    <meta name="keywords" content="hoveniersbedrijf Baarn, tuinaanleg, tuinonderhoud, hovenier Soest, hovenier Amersfoort, hovenier Hilversum, tuin aanleggen">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="TT Hovenierswerken – Hoveniersbedrijf uit Baarn, gespecialiseerd in tuinaanleg en tuinonderhoud in een straal van 20 km (Soest, Amersfoort, Hilversum e.o.). Bekijk onze diensten en vraag vrijblijvend een offerte aan.">
+    <meta name="keywords" content="hoveniersbedrijf Baarn, hovenier Baarn, tuinaanleg, tuinonderhoud, hovenier Soest, hovenier Amersfoort, hovenier Hilversum, tuin aanleggen, tuinman regio Baarn">
     <meta name="author" content="TT Hovenierswerken">
-    <meta property="og:title" content="TT Hovenierswerken | Tuinaanleg & Onderhoud">
-    <meta property="og:description" content="Vakkundige hoveniers actief in Baarn en een straal van 20 km. Tuinaanleg en onderhoud op maat.">
+    <!-- // Canonical: voorkomt duplicate content, wijst Google naar de homepage -->
+    <link rel="canonical" href="https://www.tthovenierswerken.nl/">
+    <!-- // OpenGraph: social sharing & Google entiteitsherkenning -->
+    <meta property="og:site_name" content="TT Hovenierswerken">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:title" content="TT Hovenierswerken | Tuinaanleg & Onderhoud – Baarn">
+    <meta property="og:description" content="Vakkundige hoveniers actief in Baarn en een straal van 20 km. Ontdek onze diensten: tuinaanleg, tuinonderhoud en beregening.">
     <meta property="og:image" content="img/onderhoud-desktop.webp">
+    <meta property="og:url" content="https://www.tthovenierswerken.nl/">
     <meta property="og:type" content="website">
-    <title>TT Hovenierswerken | Tuinaanleg & Onderhoud – Baarn</title>
+    <!-- // Twitter Card: fallback voor social previews -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TT Hovenierswerken | Tuinaanleg & Onderhoud – Baarn">
+    <meta name="twitter:description" content="Vakkundige hoveniers actief in Baarn en een straal van 20 km. Tuinaanleg en onderhoud op maat.">
+    <meta name="twitter:image" content="img/onderhoud-desktop.webp">
+    <title>TT Hovenierswerken | Hovenier Baarn – Tuinaanleg & Onderhoud</title>
     <!-- // Favicon: eigen favicon toegevoegd -->
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="apple-touch-icon" href="img/favicon.png">
@@ -87,86 +110,61 @@
         </div>
     </section>
 
-    <!-- // DIENSTEN SECTIE: Flip cards met foto's -->
-    <section id="diensten" class="services-section">
+    <!-- // DIENSTEN / ROUTE SECTIE: Directe doorverwijzing naar de 3 dienst-specifieke landingspagina's -->
+    <!-- // Doel: bezoekers met een concrete zoekintentie (aanleg/onderhoud/beregening) direct naar de juiste pagina sturen -->
+    <!-- // De oude roterende (flip)kaarten zijn hier vervangen door grote, direct klikbare bannerkaarten -->
+    <section id="diensten" class="route-section">
         <div class="container">
-            <span class="section-label">Wat wij doen</span>
-            <!-- // H2: correct na H1 in hiërarchie -->
-            <h2>Onze Diensten</h2>
-            <p class="subtitle">Hover over een kaart om meer te ontdekken over onze aanpak.</p>
+            <span class="section-label">Waar bent u naar op zoek?</span>
+            <h2>Kies direct de juiste dienst</h2>
+            <p class="subtitle">Spring meteen naar de pagina die aansluit bij uw wensen – met alle informatie, werkwijze en een offerteformulier op maat.</p>
 
-            <div class="services-grid">
+            <div class="route-grid">
 
-                <!-- Kaart 1: Tuinaanleg -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <picture>
-                                <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                                <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <!-- // IMG: width/height voor lazy-loaded kaartafbeeldingen -->
-                                <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
-                            </picture>
-                            <div class="card-front-content">
-                                <!-- // H3: correct na H2 in hiërarchie -->
-                                <h3>Tuinaanleg</h3>
-                                <p>Van modern design tot complete realisatie. Wij bouwen jouw droomtuin.</p>
-                                <span class="more-info">Bekijk aanpak →</span>
-                            </div>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3>Tuinaanleg</h3>
-                            <p>Wij vertalen jouw wensen naar een exclusief ontwerp. Met hoogwaardige materialen en oog voor detail realiseren we een strak en duurzaam eindresultaat.</p>
-                            <a href="aanleg.html" class="card-btn">Meer over aanleg</a>
-                        </div>
+                <!-- // Route-kaart 1: Tuinaanleg – linkt direct naar aanleg.html -->
+                <a href="aanleg.html" class="route-card route-card-aanleg">
+                    <picture>
+                        <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg en tuinrenovatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                    </picture>
+                    <div class="route-card-content">
+                        <span class="route-card-icon">🌿</span>
+                        <h3>Tuinaanleg &amp; Renovatie</h3>
+                        <p>Nieuwe tuin, verbouwing of complete metamorfose? Bekijk onze werkwijze en vraag direct een offerte aan voor tuinaanleg.</p>
+                        <span class="route-card-cta">Naar tuinaanleg →</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Kaart 2: Tuinonderhoud -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <picture>
-                                <source srcset="img/onderhoud-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                                <source srcset="img/onderhoud-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <img src="img/onderhoud-desktop.webp" alt="Tuinonderhoud door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
-                            </picture>
-                            <div class="card-front-content">
-                                <h3>Tuinonderhoud</h3>
-                                <p>Houd je tuin in topconditie. Periodiek of eenmalig grondig onderhoud.</p>
-                                <span class="more-info">Bekijk aanpak →</span>
-                            </div>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3>Tuinonderhoud</h3>
-                            <p>Tijdens de warme seizoenen zorgen wij dat jouw beplanting, gazon en hagen er perfect bijstaan. We nemen al het zware werk uit handen.</p>
-                            <a href="onderhoud.html" class="card-btn">Meer over onderhoud</a>
-                        </div>
+                <!-- // Route-kaart 2: Tuinonderhoud – linkt direct naar onderhoud.html -->
+                <a href="onderhoud.html" class="route-card route-card-onderhoud">
+                    <picture>
+                        <source srcset="img/onderhoud-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/onderhoud-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/onderhoud-desktop.webp" alt="Periodiek tuinonderhoud door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                    </picture>
+                    <div class="route-card-content">
+                        <span class="route-card-icon">✂️</span>
+                        <h3>Tuinonderhoud &amp; Snoeiwerk</h3>
+                        <p>Ontzorging het hele jaar door. Kies een eenmalige beurt of een periodiek onderhoudscontract op maat.</p>
+                        <span class="route-card-cta">Naar tuinonderhoud →</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Kaart 3: Beregening & Irrigatie -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <picture>
-                                <source srcset="img/beregening-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                                <source srcset="img/beregening-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                                <img src="img/beregening-desktop.webp" alt="Beregening & Irrigatie door TT Hovenierswerken" class="card-img" loading="lazy" width="400" height="332">
-                            </picture>
-                            <div class="card-front-content">
-                                <h3>Beregening &amp; Irrigatie</h3>
-                                <p>Vakkundige aanleg &amp; snelle storingsdienst. Bereken direct uw richtprijs.</p>
-                                <span class="more-info">Bekijk aanpak →</span>
-                            </div>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3>Beregening &amp; Irrigatie</h3>
-                            <p>Van professionele sproei-installaties tot snel herstel van storingen. In samenwerking met Wildkamp realiseren wij een duurzaam beregeningssysteem — inclusief directe richtprijsindicatie.</p>
-                            <a href="beregening.html" class="card-btn">Meer over beregening</a>
-                        </div>
+                <!-- // Route-kaart 3: Beregening & Irrigatie – linkt direct naar beregening.html -->
+                <a href="beregening.html" class="route-card route-card-beregening">
+                    <picture>
+                        <source srcset="img/beregening-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/beregening-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/beregening-desktop.webp" alt="Beregeningssystemen en irrigatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                    </picture>
+                    <div class="route-card-content">
+                        <span class="route-card-icon">💧</span>
+                        <h3>Beregening &amp; Irrigatie</h3>
+                        <p>Automatische beregening, pompinstallaties en slimme sproeisystemen. Bereken direct uw richtprijs.</p>
+                        <span class="route-card-cta">Naar beregening →</span>
                     </div>
-                </div>
+                </a>
 
             </div>
         </div>
