@@ -165,6 +165,24 @@
     onScroll();
 })();
 
+// Sectie: Google Ads Conversion Tracking – meet succesvolle formulierverzendingen
+// De basis gtag.js-tag (AW-18112459573) staat al in de <head> van elke pagina.
+// BELANGRIJK: vervang 'VUL_HIER_JE_CONVERSIE_LABEL_IN' door het echte Conversion Label
+// dat je in Google Ads krijgt bij het aanmaken van de conversieactie (zie toelichting hieronder).
+var TT_GADS_CONVERSION_SEND_TO = 'AW-18112459573/VUL_HIER_JE_CONVERSIE_LABEL_IN';
+
+// // Gedeelde functie: registreert een Google Ads conversie-event.
+// // Wordt aangeroepen zodra een formulier succesvol via EmailJS is verzonden.
+function ttTrackConversion() {
+    if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+            'send_to': TT_GADS_CONVERSION_SEND_TO
+        });
+    } else {
+        console.warn('Google Ads gtag() is niet gevonden – conversie kon niet worden geregistreerd.');
+    }
+}
+
 // Sectie: EmailJS Core – gedeelde configuratie & verzendfunctie voor ALLE formulieren
 // Zowel het offerteformulier (aanleg/onderhoud/beregening/meerdere) op index.html
 // als de beregening-rekentool op beregening.html vallen onder dezelfde EmailJS-koppeling ("1 ding").
@@ -317,6 +335,8 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
 
         // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als de beregening-rekentool
         ttVerzendAanvraag(templateParams, submitBtn, function () {
+            // Registreer Google Ads conversie bij succesvolle verzending
+            ttTrackConversion();
             // Toon succes modal
             if (successModal) {
                 successModal.style.display = 'flex';
@@ -607,6 +627,8 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
 
         // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als het offerteformulier
         ttVerzendAanvraag(templateParams, submitBtn, function () {
+            // Registreer Google Ads conversie bij succesvolle verzending
+            ttTrackConversion();
             const successModal = document.getElementById('successModal');
             if (successModal) {
                 successModal.style.display = 'flex';

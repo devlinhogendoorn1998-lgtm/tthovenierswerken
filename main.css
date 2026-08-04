@@ -862,6 +862,28 @@ nav a.nav-cta:hover {
 }
 
 /* ============================================
+   // REVIEWS SECTIE – Trustoo widget (social proof voor de offerte-CTA)
+   ============================================ */
+.reviews-section {
+    background: transparent;
+    padding: 90px 0;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+/* // Widget-container: gecentreerd met max-breedte zodat het zich netjes voegt in de layout */
+.reviews-section .trustoo-widget {
+    max-width: 640px;
+    margin: 40px auto 0;
+}
+
+/* ============================================
    // OFFERTE SECTIE – Uitgebreid formulier
    ============================================ */
 .quote-section {
