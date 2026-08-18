@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <!-- // Meta: SEO & Social -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TT Hovenierswerken – Specialist in tuinaanleg, tuinonderhoud en hogedrukreiniging in Baarn en omgeving (20 km radius). Vraag vrijblijvend een offerte aan.">
+    <meta name="keywords" content="hoveniersbedrijf Baarn, tuinaanleg, tuinonderhoud, hogedrukreiniging, hovenier Soest, hovenier Amersfoort, hovenier Hilversum, tuin aanleggen, terras reinigen">
+    <meta name="author" content="TT Hovenierswerken">
+    <meta property="og:title" content="TT Hovenierswerken | Tuinaanleg, Onderhoud & Hogedrukreiniging">
+    <meta property="og:description" content="Vakkundige hoveniers actief in Baarn en een straal van 20 km. Tuinaanleg, onderhoud en hogedrukreiniging op maat.">
+    <meta property="og:image" content="img/onderhoud-desktop.webp">
+    <meta property="og:type" content="website">
+    <title>TT Hovenierswerken | Tuinaanleg, Onderhoud & Hogedrukreiniging – Baarn</title>
+    <!-- // CSS: basis eerst, daarna pagina-specifiek -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="cookie.css">
+</head>
+<body>
+
+    <!-- // HEADER: Vaste navigatie met logo en klinker achtergrond -->
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo">
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
+                <span></span><span></span><span></span>
+            </button>
+            <nav id="mainNav">
+                <a href="#diensten">Diensten</a>
+                <a href="#werkgebied">Werkgebied</a>
+                <a href="#offerte" class="nav-cta">Offerte Aanvragen</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- // HERO SECTIE: Split layout – tekst links, foto rechts -->
+    <section class="hero">
+        <div class="container hero-split">
+
+            <!-- Links: logo + tekst + USP's + knoppen -->
+            <div class="hero-left">
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="hero-logo">
+                <span class="hero-badge">Vakkundig &amp; Betrouwbaar</span>
+                <h1>Exclusieve Tuinen,<br>Vakkundig Gerealiseerd</h1>
+                <p>Met meer dan 10 jaar ervaring transformeren wij jouw buitenruimte tot een luxe leefomgeving. Actief in Baarn en omgeving.</p>
+                <ul class="hero-usp-list">
+                    <li><span class="hero-usp-icon">🌿</span> Tuinaanleg op maat</li>
+                    <li><span class="hero-usp-icon">✂️</span> Periodiek tuinonderhoud</li>
+                    <li><span class="hero-usp-icon">💧</span> Hogedrukreiniging inclusief invegen</li>
+                    <li><span class="hero-usp-icon">📍</span> Actief in 20 km rond Baarn</li>
+                </ul>
+                <div class="hero-buttons">
+                    <a href="#offerte" class="btn btn-primary">Vraag een offerte aan</a>
+                    <a href="#diensten" class="btn btn-outline">Bekijk onze diensten</a>
+                </div>
+            </div>
+
+            <!-- Rechts: foto in gouden frame met badge -->
+            <div class="hero-right">
+                <div class="hero-img-frame">
+                    <picture>
+                        <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/tuin-oplevering-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager">
+                    </picture>
+                    <div class="hero-img-badge">
+                        <span class="hero-img-badge-num">10+</span>
+                        <span class="hero-img-badge-txt">jaar<br>ervaring</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- // DIENSTEN SECTIE: Flip cards met foto's -->
+    <section id="diensten" class="services-section">
+        <div class="container">
+            <span class="section-label">Wat wij doen</span>
+            <h2>Onze Diensten</h2>
+            <p class="subtitle">Hover over een kaart om meer te ontdekken over onze aanpak.</p>
+
+            <div class="services-grid">
+
+                <!-- Kaart 1: Tuinaanleg -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <picture>
+                                <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                                <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                                <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg door TT Hovenierswerken" class="card-img" loading="lazy">
+                            </picture>
+                            <div class="card-front-content">
+                                <h3>Tuinaanleg</h3>
+                                <p>Van modern design tot complete realisatie. Wij bouwen jouw droomtuin.</p>
+                                <span class="more-info">Bekijk aanpak →</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Tuinaanleg</h3>
+                            <p>Wij vertalen jouw wensen naar een exclusief ontwerp. Met hoogwaardige materialen en oog voor detail realiseren we een strak en duurzaam eindresultaat.</p>
+                            <a href="aanleg.html" class="card-btn">Meer over aanleg</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kaart 2: Tuinonderhoud -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <picture>
+                                <source srcset="img/onderhoud-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                                <source srcset="img/onderhoud-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                                <img src="img/onderhoud-desktop.webp" alt="Tuinonderhoud door TT Hovenierswerken" class="card-img" loading="lazy">
+                            </picture>
+                            <div class="card-front-content">
+                                <h3>Tuinonderhoud</h3>
+                                <p>Houd je tuin in topconditie. Periodiek of eenmalig grondig onderhoud.</p>
+                                <span class="more-info">Bekijk aanpak →</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Tuinonderhoud</h3>
+                            <p>Tijdens de warme seizoenen zorgen wij dat jouw beplanting, gazon en hagen er perfect bijstaan. We nemen al het zware werk uit handen.</p>
+                            <a href="onderhoud.html" class="card-btn">Meer over onderhoud</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kaart 3: Hogedrukreiniging -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <picture>
+                                <source srcset="img/hogedruk-mobiel.webp" media="(max-width: 768px)" type="image/webp">
+                                <source srcset="img/hogedruk-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                                <img src="img/hogedruk-desktop.webp" alt="Hogedrukreiniging door TT Hovenierswerken" class="card-img" loading="lazy">
+                            </picture>
+                            <div class="card-front-content">
+                                <h3>Hogedrukreiniging</h3>
+                                <p>Je terras weer als nieuw. Grondige reiniging inclusief invegen.</p>
+                                <span class="more-info">Bekijk werkwijze →</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Hogedrukreiniging</h3>
+                            <p><strong>Bezoek 1:</strong> Grondig reinigen met professionele borstelbak. Muren en ramen spoelen we netjes na.<br><br>
+                            <strong>Bezoek 2:</strong> Zodra de bestrating kurkdroog is, vegen we alles strak in met voegzand.</p>
+                            <a href="hogedruk.html" class="card-btn">Meer over reiniging</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- // OFFERTE SECTIE: Uitgebreid aanvraagformulier -->
+    <section id="offerte" class="quote-section">
+        <div class="container">
+            <div class="quote-wrapper">
+
+                <!-- Links: intro + voordelen -->
+                <div class="quote-intro">
+                    <span class="section-label">Vrijblijvend</span>
+                    <h2>Offerte Aanvragen</h2>
+                    <p>Vul het formulier in en wij nemen binnen 24 uur contact met u op. Het definitieve tarief bepalen we na een gratis nameting op locatie.</p>
+                    <ul class="quote-benefits">
+                        <li>✓ Gratis en vrijblijvend</li>
+                        <li>✓ Reactie binnen 24 uur</li>
+                        <li>✓ Nameting op locatie</li>
+                        <li>✓ Transparante prijzen</li>
+                    </ul>
+                </div>
+
+                <!-- Rechts: formulier -->
+                <form id="quoteForm" class="quote-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="naam">Uw naam <span class="required">*</span></label>
+                            <input type="text" id="naam" name="naam" placeholder="Jan de Vries" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefoon">Telefoonnummer <span class="required">*</span></label>
+                            <input type="tel" id="telefoon" name="telefoon" placeholder="06 12 34 56 78" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mailadres <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="jan@voorbeeld.nl" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adres">Adres / Woonplaats <span class="required">*</span></label>
+                        <input type="text" id="adres" name="adres" placeholder="Hoofdstraat 1, Baarn" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dienst">Gewenste dienst <span class="required">*</span></label>
+                        <select id="dienst" name="dienst" required>
+                            <option value="">-- Maak een keuze --</option>
+                            <option value="aanleg">Tuinaanleg</option>
+                            <option value="onderhoud">Tuinonderhoud</option>
+                            <option value="hogedruk">Hogedrukreiniging (€7,- p/m² | Vanaf €250,-)</option>
+                            <option value="meerdere">Meerdere diensten</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group id-hogedruk-fields" id="hogedrukFields" style="display:none;">
+                        <label for="oppervlakte">Verwachte oppervlakte (m²)</label>
+                        <input type="number" id="oppervlakte" name="oppervlakte" min="1" placeholder="Bijv. 35">
+                        <p class="form-note">* We meten het oppervlak op de dag zelf samen na. Daarna ontvangt u de definitieve offerte.</p>
+                    </div>
+
+                    <div class="price-indicator" id="priceIndicator" style="display:none;">
+                        <p>Geschatte prijsindicatie: <strong id="calculatedPrice">€0,-</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bericht">Omschrijving van uw wensen</label>
+                        <textarea id="bericht" name="bericht" rows="4" placeholder="Vertel ons meer over uw tuin, wensen of specifieke situatie..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary submit-btn">Offerte Aanvragen →</button>
+                    <p class="form-privacy">Uw gegevens worden uitsluitend gebruikt voor het verwerken van uw aanvraag.</p>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- // WERKGEBIED SECTIE: 20 km radius rond Baarn -->
+    <section id="werkgebied" class="werkgebied-section">
+        <div class="container">
+            <span class="section-label">Ons werkgebied</span>
+            <h2>Actief in 20 km rond Baarn</h2>
+            <p class="subtitle">Wij zijn actief in Baarn en alle omliggende plaatsen binnen een straal van 20 kilometer.</p>
+            <div class="plaatsen-grid">
+                <div class="plaats-item">Baarn</div>
+                <div class="plaats-item">Soest</div>
+                <div class="plaats-item">Soestdijk</div>
+                <div class="plaats-item">Soestduinen</div>
+                <div class="plaats-item">Amersfoort</div>
+                <div class="plaats-item">Hilversum</div>
+                <div class="plaats-item">Laren</div>
+                <div class="plaats-item">Blaricum</div>
+                <div class="plaats-item">Huizen</div>
+                <div class="plaats-item">Bussum</div>
+                <div class="plaats-item">Naarden</div>
+                <div class="plaats-item">Muiden</div>
+                <div class="plaats-item">Weesp</div>
+                <div class="plaats-item">Loosdrecht</div>
+                <div class="plaats-item">Breukelen</div>
+                <div class="plaats-item">Maarssen</div>
+                <div class="plaats-item">De Bilt</div>
+                <div class="plaats-item">Bilthoven</div>
+                <div class="plaats-item">Zeist</div>
+                <div class="plaats-item">Leusden</div>
+                <div class="plaats-item">Nijkerk</div>
+                <div class="plaats-item">Bunschoten</div>
+                <div class="plaats-item">Spakenburg</div>
+                <div class="plaats-item">Eemnes</div>
+            </div>
+            <p class="werkgebied-note">Staat uw woonplaats er niet bij? Neem gerust contact op – we kijken altijd naar de mogelijkheden.</p>
+        </div>
+    </section>
+
+    <!-- // FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo">
+                <p>Vakkundige hoveniers actief in Baarn en omgeving. Tuinaanleg, onderhoud en hogedrukreiniging op maat.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Diensten</h4>
+                <ul>
+                    <li><a href="aanleg.html">Tuinaanleg</a></li>
+                    <li><a href="onderhoud.html">Tuinonderhoud</a></li>
+                    <li><a href="hogedruk.html">Hogedrukreiniging</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Navigatie</h4>
+                <ul>
+                    <li><a href="#diensten">Onze diensten</a></li>
+                    <li><a href="#werkgebied">Werkgebied</a></li>
+                    <li><a href="#offerte">Offerte aanvragen</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Juridisch</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacybeleid</a></li>
+                    <li><a href="algemene-voorwaarden.html">Algemene Voorwaarden</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Baarn en omgeving</p>
+                <p>Werkgebied: 20 km radius</p>
+                <a href="#offerte" class="btn btn-outline footer-btn">Offerte aanvragen</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TT Hovenierswerken. Alle rechten voorbehouden. &nbsp;|&nbsp; Hosted &amp; Made by <strong><a href="https://ttdigitaldesign.nl" target="_blank" rel="noopener noreferrer">TT DigitalDesign</a></strong></p>
+        </div>
+    </footer>
+
+    <!-- // Cookie Banner -->
+    <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookiemelding">
+        <div class="cookie-text">
+            <p><strong>🍪 Wij gebruiken cookies</strong> om uw ervaring te verbeteren en onze website te analyseren. Door op "Accepteren" te klikken, gaat u akkoord met ons gebruik van cookies. Lees meer in ons <a href="privacy.html">privacybeleid</a>.</p>
+        </div>
+        <div class="cookie-actions">
+            <button id="cookie-accept">Accepteren</button>
+            <button id="cookie-decline">Weigeren</button>
+        </div>
+    </div>
+
+    <!-- // JavaScript -->
+    <script src="script.js"></script>
+    <script src="cookie.js"></script>
+</body>
+</html>

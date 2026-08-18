@@ -1,0 +1,99 @@
+/* ============================================
+   // HOGEDRUK.CSS – Stijlen specifiek voor hogedruk.html
+   // Laadt na style.css (basis)
+   ============================================ */
+
+/* // Hogedruk pagina: accentkleur detail afbeelding */
+.detail-image {
+    border-color: var(--gold-dark);
+}
+
+/* // Hogedruk pagina: highlight op sterke tekst in lijst */
+.detail-list li strong {
+    color: var(--gold-light);
+}
+
+/* // PRIJSBOX – Tarief en minimumprijs weergave */
+.price-box {
+    display: flex;
+    align-items: center;
+    background: rgba(201,168,76,0.07);
+    border: 1px solid var(--gold-dark);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    margin-top: 28px;
+    gap: 0;
+}
+
+.price-box-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.price-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gold-light);
+}
+
+.price-box-divider {
+    width: 1px;
+    height: 48px;
+    background: var(--dark-5);
+    margin: 0 28px;
+}
+
+/* // Hogedruk pagina: stap-kaarten hover */
+.step-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+/* // Hogedruk pagina: CTA knop in hero */
+.page-hero-content .btn-primary {
+    padding: 14px 36px;
+    font-size: 1rem;
+}
+
+/* // Prijsbadge knop in hero (niet klikbaar) */
+.page-hero-content .btn-outline[style*="cursor: default"] {
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    .page-hero-content .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .price-box {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .price-box-divider {
+        width: 100%;
+        height: 1px;
+        margin: 0;
+    }
+
+    .price-box-item {
+        align-items: center;
+        text-align: center;
+    }
+}
