@@ -1,0 +1,679 @@
+/* ============================================
+   // BASIS CSS – Gedeeld door alle pagina's
+   // Bevat: reset, variabelen, typografie,
+   //        knoppen, header, nav, footer,
+   //        gedeelde componenten, responsive
+   ============================================ */
+
+/* // RESET & BASE */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gold:          #c9a84c;
+    --gold-light:    #e8c97a;
+    --gold-dark:     #9a7a2e;
+    --dark:          #0e0e0e;
+    --dark-2:        #161616;
+    --dark-3:        #1e1e1e;
+    --dark-4:        #272727;
+    --dark-5:        #333333;
+    --text:          #e0e0e0;
+    --text-muted:    #888888;
+    --white:         #ffffff;
+    --header-height: 80px;
+    --radius:        10px;
+    --transition:    0.3s ease;
+}
+
+html {
+    background-color: var(--dark);
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: transparent;
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* // Sectie: Hexagon Canvas – vaste achtergrond laag */
+#hexagon-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+}
+
+/* Zorg dat alle directe body-children boven de canvas liggen */
+body > *:not(#hexagon-canvas):not(#cookie-banner):not(.site-header) {
+    position: relative;
+    z-index: 1;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* // CONTAINER */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* // SECTION LABEL */
+.section-label {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+}
+
+/* // SUBTITLE */
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 48px;
+}
+
+/* // KNOPPEN */
+.btn {
+    display: inline-block;
+    padding: 13px 32px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition),
+                transform var(--transition), border-color var(--transition);
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    border-color: var(--gold);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.45);
+}
+
+.btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   // HEADER – Oranje klinker achtergrond + logo
+   ============================================ */
+.site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 1000;
+}
+
+/* Klinker patroon laag */
+.site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 18px,
+            rgba(0,0,0,0.18) 18px,
+            rgba(0,0,0,0.18) 20px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 36px,
+            rgba(0,0,0,0.18) 36px,
+            rgba(0,0,0,0.18) 38px
+        ),
+        linear-gradient(135deg,
+            #c0622a 0%, #b85520 15%, #d4743a 25%,
+            #c06030 35%, #a84e1e 45%, #cc6a32 55%,
+            #b85a28 65%, #d07038 75%, #c06030 85%, #b05020 100%
+        );
+    background-size: 38px 20px, 38px 20px, 100% 100%;
+    z-index: 0;
+}
+
+/* Donkere overlay voor leesbaarheid */
+.site-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(10,10,10,0.82) 0%,
+        rgba(10,10,10,0.65) 50%,
+        rgba(10,10,10,0.75) 100%
+    );
+    z-index: 1;
+}
+
+/* // NAV CONTAINER */
+.nav-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+    padding: 0 20px;
+}
+
+/* // LOGO – links in header */
+.logo-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logo {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+}
+
+/* // NAVIGATIE */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: color var(--transition), background var(--transition);
+    letter-spacing: 0.02em;
+}
+
+nav a:hover {
+    color: var(--gold-light);
+}
+
+nav a.nav-cta {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    font-weight: 700;
+    padding: 9px 22px;
+    border-radius: 6px;
+    margin-left: 8px;
+}
+
+nav a.nav-cta:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: var(--dark);
+    transform: translateY(-1px);
+}
+
+/* // HAMBURGER MENU */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 10;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+/* ============================================
+   // FOOTER
+   ============================================ */
+.site-footer {
+    background: rgba(22,22,22,0.92);
+    border-top: 1px solid var(--dark-5);
+    backdrop-filter: blur(8px);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 48px;
+    padding: 64px 0 48px;
+}
+
+.footer-brand p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 16px;
+    max-width: 280px;
+}
+
+.footer-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0.9);
+}
+
+.footer-links h4,
+.footer-contact h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+}
+
+.footer-links ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-links ul li a {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: color var(--transition);
+}
+
+.footer-links ul li a:hover {
+    color: var(--gold-light);
+}
+
+.footer-contact p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.footer-btn {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--dark-5);
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   // GEDEELDE DETAIL COMPONENTEN
+   // (gebruikt op aanleg / onderhoud / hogedruk)
+   ============================================ */
+
+/* // PAGE HERO */
+.page-hero {
+    min-height: 55vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 60px 20px 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+.page-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(10,10,10,0.92) 0%,
+        rgba(10,10,10,0.5) 60%,
+        rgba(10,10,10,0.3) 100%
+    );
+    z-index: 1;
+}
+
+.page-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+}
+
+.page-hero-content h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+
+.page-hero-content p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.75;
+    margin-bottom: 28px;
+}
+
+/* // DETAIL SECTIE */
+.detail-section {
+    background: transparent;
+    padding: 80px 0;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.detail-text h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.detail-text p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.85;
+    margin-bottom: 16px;
+}
+
+.detail-list {
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.detail-list li::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.detail-image {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--dark-5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.detail-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* // Section: Portfolio / Responsive Picture Component */
+.tuin-project {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.responsive-tuinfoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+/* // STAPPEN SECTIE */
+.steps-section {
+    background: transparent;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.steps-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.step-card {
+    background: rgba(39,39,39,0.80);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    transition: border-color var(--transition), transform var(--transition);
+    backdrop-filter: blur(4px);
+}
+
+.step-card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-4px);
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--dark);
+    font-weight: 800;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    margin-bottom: 16px;
+}
+
+.step-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* // CTA SECTIE */
+.cta-section {
+    background: rgba(30,30,30,0.70);
+    border-top: 1px solid var(--dark-5);
+    border-bottom: 1px solid var(--dark-5);
+    padding: 80px 0;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+.cta-section h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 14px;
+}
+
+.cta-section p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* // FORM GEDEELD */
+.form-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* ============================================
+   // RESPONSIVE: TABLET (max 900px)
+   ============================================ */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .detail-image img {
+        height: 280px;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 68px;
+    }
+
+    /* Hamburger zichtbaar */
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Nav verborgen, opent als .open */
+    nav {
+        display: none;
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: rgba(14,14,14,0.98);
+        flex-direction: column;
+        padding: 24px 20px;
+        gap: 4px;
+        border-bottom: 1px solid var(--dark-5);
+        backdrop-filter: blur(10px);
+        z-index: 999;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav a {
+        padding: 12px 16px;
+        font-size: 1rem;
+        border-radius: 6px;
+        width: 100%;
+        text-align: left;
+    }
+
+    nav a.nav-cta {
+        margin-left: 0;
+        margin-top: 8px;
+        text-align: center;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 48px 0 32px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-hero {
+        min-height: 45vh;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: KLEIN MOBIEL (max 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .logo {
+        height: 44px;
+    }
+}

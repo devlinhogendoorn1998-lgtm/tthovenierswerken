@@ -1,0 +1,216 @@
+/* ============================================
+   // Legal Pages CSS – Privacy & Algemene Voorwaarden
+   // TT Hovenierswerken – dark/gold thema
+   ============================================ */
+
+/* // Sectie: Page Hero – compacte hero voor legal pagina's */
+.legal-hero {
+    background: var(--dark-2);
+    border-bottom: 1px solid var(--dark-5);
+    padding: 60px 20px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.legal-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.legal-hero .section-label {
+    margin-bottom: 14px;
+}
+
+.legal-hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.legal-hero p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* // Sectie: Legal Content – hoofdinhoud */
+.legal-content {
+    padding: 72px 0 96px;
+}
+
+.legal-body {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+/* // Sectie: Legal Artikel blokken */
+.legal-article {
+    margin-bottom: 52px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--dark-5);
+}
+
+.legal-article:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.legal-article h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legal-article h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legal-article p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+    margin-bottom: 14px;
+}
+
+.legal-article p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-article ul {
+    list-style: none;
+    margin: 14px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.legal-article ul li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 20px;
+    position: relative;
+}
+
+.legal-article ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dark);
+    font-weight: 700;
+}
+
+.legal-article a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+}
+
+.legal-article a:hover {
+    color: var(--gold);
+}
+
+/* // Sectie: Legal Datum badge */
+.legal-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin-bottom: 48px;
+}
+
+/* // Sectie: Terug knop */
+.legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+    transition: color var(--transition);
+}
+
+.legal-back:hover {
+    color: var(--gold-light);
+}
+
+.legal-back::before {
+    content: '←';
+    font-size: 1rem;
+}
+
+/* // Sectie: Contact CTA onderaan */
+.legal-cta {
+    background: rgba(30,30,30,0.70);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    text-align: center;
+    margin-top: 64px;
+    backdrop-filter: blur(6px);
+}
+
+.legal-cta h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.legal-cta p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+}
+
+/* // Sectie: Responsive mobiel */
+@media (max-width: 768px) {
+    .legal-hero {
+        padding: 48px 20px 36px;
+    }
+
+    .legal-content {
+        padding: 48px 0 64px;
+    }
+
+    .legal-article {
+        margin-bottom: 36px;
+        padding-bottom: 36px;
+    }
+
+    .legal-cta {
+        padding: 28px 20px;
+    }
+}

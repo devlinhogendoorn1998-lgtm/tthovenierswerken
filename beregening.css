@@ -1,0 +1,1048 @@
+/* ============================================
+   // BEREGENING.CSS – TT Hovenierswerken
+   // Pagina-specifieke stijlen voor beregening.html
+   // Hero met sproeier-animatie, tarieventabel,
+   // meerstaps calculator, storing/spoedservice, modals
+   // Laadt na main.css – hergebruikt --gold, --dark, etc.
+   ============================================ */
+
+/* // Sectie: Beregening Hero – overlay met groene watertint */
+.beregening-hero-section {
+    min-height: 62vh;
+    background: linear-gradient(160deg, rgba(20,32,30,0.92) 0%, rgba(14,14,14,0.96) 65%);
+    align-items: center;
+}
+
+.beregening-hero-overlay {
+    background: radial-gradient(circle at 30% 30%, rgba(90,170,160,0.10) 0%, transparent 55%),
+                linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 70%, rgba(10,10,10,0.25) 100%);
+}
+
+.beregening-hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.beregening-hero-content {
+    max-width: none;
+}
+
+/* // Sectie: Pop-up sproeier scene – puur CSS animatie, zeer licht */
+.sprinkler-scene {
+    position: relative;
+    height: 220px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.sprinkler-ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: linear-gradient(to right, rgba(90,170,120,0.35), rgba(60,130,90,0.5), rgba(90,170,120,0.35));
+    border-radius: 50px;
+    filter: blur(0.5px);
+}
+
+.sprinkler {
+    position: absolute;
+    bottom: 6px;
+    width: 10px;
+    height: 34px;
+    transform: translateX(-50%) translateY(30px);
+    animation: sprinklerPop 6s ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+}
+
+.sprinkler::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 6px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.sprinkler::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--gold-light), var(--gold-dark));
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(201,168,76,0.4);
+}
+
+.sprinkler-head {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 3px;
+}
+
+/* Waterstralen: 2 kleine strepen die uitwaaieren */
+.sprinkler-head::before,
+.sprinkler-head::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: 0;
+    background: rgba(150,210,230,0.85);
+    border-radius: 2px;
+    opacity: 0;
+    animation: sprinklerSpray 6s ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+}
+
+.sprinkler-head::before {
+    left: -10px;
+    transform: rotate(-35deg);
+}
+
+.sprinkler-head::after {
+    left: 10px;
+    transform: rotate(35deg);
+}
+
+@keyframes sprinklerPop {
+    0%, 8%    { transform: translateX(-50%) translateY(30px); }
+    18%, 65%  { transform: translateX(-50%) translateY(0); }
+    78%, 100% { transform: translateX(-50%) translateY(30px); }
+}
+
+@keyframes sprinklerSpray {
+    0%, 20%   { height: 0; opacity: 0; }
+    26%, 58%  { height: 22px; opacity: 0.9; }
+    64%, 100% { height: 0; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sprinkler,
+    .sprinkler-head::before,
+    .sprinkler-head::after {
+        animation: none !important;
+    }
+    .sprinkler {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* // Sectie: Intro grid – werkwijze & wat wel/niet */
+.beregening-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.intro-card {
+    background: rgba(39,39,39,0.78);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 32px;
+    backdrop-filter: blur(4px);
+    transition: border-color var(--transition), transform var(--transition);
+}
+
+.intro-card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-3px);
+}
+
+.intro-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+}
+
+.intro-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.intro-card p:last-child { margin-bottom: 0; }
+
+.intro-card a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.intro-card a:hover { color: var(--gold); }
+
+.focus-card .detail-list li.not-item::before {
+    content: '✕';
+    color: #e05555;
+}
+
+/* // Sectie: Tarieventabel */
+.tarieven-section {
+    padding: 80px 0;
+    background: rgba(22,22,22,0.4);
+    border-top: 1px solid var(--dark-5);
+    border-bottom: 1px solid var(--dark-5);
+}
+
+.beregening-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 40px;
+}
+
+.beregening-header .subtitle {
+    margin-bottom: 0;
+}
+
+.beregening-table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--dark-5);
+    background: rgba(30,30,30,0.7);
+    backdrop-filter: blur(4px);
+}
+
+.beregening-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+}
+
+.beregening-table thead th {
+    text-align: left;
+    padding: 18px 22px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--dark-5);
+}
+
+.beregening-table tbody tr {
+    border-bottom: 1px solid var(--dark-5);
+    transition: background var(--transition);
+    cursor: pointer;
+}
+
+.beregening-table tbody tr:last-child { border-bottom: none; }
+
+.beregening-table tbody tr:hover,
+.beregening-table tbody tr:focus-visible,
+.beregening-table tbody tr.selected {
+    background: rgba(201,168,76,0.08);
+    outline: none;
+}
+
+.beregening-table td {
+    padding: 18px 22px;
+    font-size: 0.92rem;
+    color: var(--text);
+    vertical-align: top;
+}
+
+.beregening-table td strong {
+    color: var(--white);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.beregening-table .subtext {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+.text-right { text-align: right; }
+
+.price-column {
+    font-weight: 800;
+    color: var(--gold-light);
+    font-size: 1.05rem;
+    white-space: nowrap;
+}
+
+.per-meter {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: none;
+}
+
+.tarief-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.badge-laag {
+    background: rgba(90,190,120,0.14);
+    color: #7fd99a;
+    border: 1px solid rgba(90,190,120,0.4);
+}
+
+.badge-gemiddeld {
+    background: rgba(201,168,76,0.14);
+    color: var(--gold-light);
+    border: 1px solid var(--gold-dark);
+}
+
+.badge-hoog {
+    background: rgba(224,85,85,0.14);
+    color: #f08a8a;
+    border: 1px solid rgba(224,85,85,0.4);
+}
+
+.table-hint {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 18px;
+    font-style: italic;
+}
+
+.beregening-voorwaarden {
+    margin-top: 40px;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--gold-dark);
+    border-left: 4px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 26px 30px;
+}
+
+.beregening-voorwaarden h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+}
+
+.beregening-voorwaarden ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.beregening-voorwaarden li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 18px;
+    position: relative;
+}
+
+.beregening-voorwaarden li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+}
+
+.beregening-voorwaarden li strong {
+    color: var(--gold-light);
+}
+
+/* ============================================
+   // CALCULATOR SECTIE – Meerstaps rekentool
+   ============================================ */
+.calculator-section {
+    padding: 100px 0;
+}
+
+.calculator-intro-block {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 48px;
+}
+
+.calculator-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(30,30,30,0.85);
+    border: 1px solid var(--dark-5);
+    border-radius: 16px;
+    padding: 44px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+/* // Voortgangsindicator */
+.calc-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.calc-progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.calc-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark-4);
+    border: 2px solid var(--dark-5);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.calc-progress-step.active .calc-dot,
+.calc-progress-step.done .calc-dot {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-color: var(--gold);
+    color: var(--dark);
+}
+
+.calc-step-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.calc-progress-step.active .calc-step-label,
+.calc-progress-step.done .calc-step-label {
+    color: var(--gold-light);
+}
+
+.calc-progress-line {
+    width: 60px;
+    height: 2px;
+    background: var(--dark-5);
+    margin: 0 8px;
+    margin-bottom: 22px;
+}
+
+/* // Calc stappen */
+.calc-step {
+    display: none;
+    animation: calcFadeIn 0.35s ease;
+}
+
+.calc-step.active {
+    display: block;
+}
+
+@keyframes calcFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.calc-step h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* // Grondsoort keuzekaarten */
+.grond-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.grond-card {
+    background: rgba(39,39,39,0.75);
+    border: 2px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+    transition: border-color var(--transition), transform var(--transition), background var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: inherit;
+}
+
+.grond-card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-3px);
+}
+
+.grond-card.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    box-shadow: 0 0 0 1px var(--gold);
+}
+
+.grond-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.grond-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.grond-card .tarief-badge {
+    align-self: flex-start;
+}
+
+/* // Meters input stap */
+.meters-input-group {
+    margin-bottom: 28px;
+}
+
+.meters-input-group label {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text);
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.meters-input-group label strong {
+    color: var(--gold-light);
+    font-size: 1.2rem;
+}
+
+#metersRange {
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    background: var(--dark-5);
+    outline: none;
+    accent-color: var(--gold);
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+#metersInput {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-5);
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+#metersInput:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+
+/* // Prijs preview breakdown */
+.calc-price-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.price-breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: var(--text);
+}
+
+.price-breakdown-total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--gold-dark);
+    padding-top: 10px;
+    margin-top: 4px;
+    font-size: 1.05rem;
+    color: var(--white);
+}
+
+.price-breakdown-total strong {
+    color: var(--gold-light);
+    font-size: 1.25rem;
+}
+
+.calc-disclaimer {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 6px;
+}
+
+/* // Finale prijsbox in stap 3 */
+.final-price-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.final-price-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.final-price-text strong {
+    font-size: 1.7rem;
+    color: var(--gold-light);
+    font-weight: 800;
+}
+
+.excl-btw-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--dark-4);
+    padding: 5px 12px;
+    border-radius: 50px;
+    white-space: nowrap;
+}
+
+/* // Calc navigatieknoppen */
+.calc-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.calc-actions .btn {
+    flex: 1;
+}
+
+.calc-step[data-step="1"] .calc-actions {
+    justify-content: center;
+}
+
+.calc-next:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============================================
+   // STORING SECTIE
+   ============================================ */
+.storing-section {
+    padding: 90px 0;
+}
+
+.storing-container {
+    background: rgba(30,20,20,0.55);
+    border: 1px solid rgba(224,85,85,0.3);
+    border-radius: 18px;
+    padding: 52px 44px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+.storing-badge {
+    display: inline-block;
+    background: rgba(224,85,85,0.15);
+    border: 1px solid #e05555;
+    color: #f08a8a;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.storing-container h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 16px;
+}
+
+.storing-lead {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+}
+
+.storing-tarieven-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 600px;
+    margin: 0 auto 44px;
+}
+
+.storing-tarief-card {
+    background: rgba(39,39,39,0.7);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-align: center;
+}
+
+.card-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+}
+
+.card-price small {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.storing-tarief-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.storing-tarief-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.storing-spelregels {
+    text-align: left;
+    max-width: 720px;
+    margin: 0 auto 44px;
+    background: rgba(20,20,20,0.5);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 30px 34px;
+}
+
+.storing-spelregels h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.storing-spelregels ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.storing-spelregels li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    padding-left: 20px;
+    position: relative;
+}
+
+.storing-spelregels li::before {
+    content: '⚠';
+    position: absolute;
+    left: 0;
+    color: #e05555;
+    font-size: 0.85rem;
+}
+
+.storing-spelregels li strong {
+    color: var(--gold-light);
+}
+
+.spoed-action-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.spoed-action-block p {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.btn-spoed {
+    position: relative;
+    background: linear-gradient(135deg, #e05555, #b83a3a);
+    color: var(--white);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    padding: 18px 44px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(224,85,85,0.4);
+    transition: transform var(--transition), box-shadow var(--transition);
+    overflow: visible;
+}
+
+.btn-spoed:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 36px rgba(224,85,85,0.55);
+}
+
+.pulse-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    border: 2px solid #e05555;
+    animation: pulseRing 1.8s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseRing {
+    0%   { transform: scale(1);    opacity: 0.7; }
+    100% { transform: scale(1.25); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pulse-ring { animation: none; opacity: 0; }
+}
+
+/* ============================================
+   // MODALS – Spoed contact modal
+   ============================================ */
+.spoed-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(4px);
+    padding: 20px;
+}
+
+.spoed-modal.active {
+    display: flex;
+    animation: modalFadeIn 0.25s ease;
+}
+
+.spoed-modal .modal-content {
+    position: relative;
+    background: var(--dark-3);
+    border: 1px solid #e05555;
+    border-radius: 16px;
+    padding: 44px 40px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transition);
+}
+
+.close-modal:hover { color: var(--white); }
+
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.modal-alert-icon {
+    font-size: 2.2rem;
+}
+
+.modal-header h3 {
+    font-size: 1.4rem;
+    color: var(--white);
+    font-weight: 800;
+}
+
+.spoed-modal p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.modal-phone-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #e05555, #b83a3a);
+    color: var(--white);
+    font-size: 1.4rem;
+    font-weight: 800;
+    padding: 16px 32px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 24px rgba(224,85,85,0.4);
+    transition: transform var(--transition);
+}
+
+.modal-phone-link:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+.modal-subtext {
+    font-size: 0.82rem !important;
+    font-style: italic;
+    margin-bottom: 0 !important;
+}
+
+/* ============================================
+   // RESPONSIVE: TABLET (max 900px) – beregening
+   ============================================ */
+@media (max-width: 900px) {
+    .beregening-hero-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .sprinkler-scene {
+        height: 140px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .beregening-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .grond-options {
+        grid-template-columns: 1fr;
+    }
+
+    .storing-tarieven-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .storing-container {
+        padding: 40px 28px;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: MOBIEL (max 768px) – beregening
+   ============================================ */
+@media (max-width: 768px) {
+    .beregening-hero-section {
+        min-height: auto;
+        padding: calc(var(--header-height) + 32px) 20px 48px;
+    }
+
+    .beregening-table-wrapper {
+        margin: 0 -4px;
+    }
+
+    .beregening-table {
+        min-width: 480px;
+    }
+
+    .calculator-box {
+        padding: 28px 20px;
+    }
+
+    .calc-progress-line {
+        width: 32px;
+    }
+
+    .calc-step-label {
+        font-size: 0.62rem;
+    }
+
+    .calc-dot {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+
+    .calc-actions {
+        flex-direction: column;
+    }
+
+    .storing-spelregels {
+        padding: 22px 20px;
+    }
+
+    .btn-spoed {
+        width: 100%;
+        padding: 16px 20px;
+    }
+
+    .final-price-box {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ============================================
+   // RESPONSIVE: KLEIN MOBIEL (max 480px) – beregening
+   ============================================ */
+@media (max-width: 480px) {
+    .beregening-table {
+        min-width: 420px;
+    }
+
+    .beregening-table td,
+    .beregening-table th {
+        padding: 12px 14px;
+        font-size: 0.82rem;
+    }
+
+    .price-column {
+        font-size: 0.9rem;
+    }
+
+    .modal-phone-link {
+        font-size: 1.1rem;
+        padding: 14px 22px;
+    }
+}

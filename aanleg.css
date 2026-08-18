@@ -1,0 +1,9 @@
+/* ============================================
+   // AANLEG.CSS – Niet gekoppeld aan aanleg.html
+   // Alle stijlen voor deze pagina (showcase-hero,
+   // trust-strip, detail-image-stack, timeline, faq)
+   // zijn samengevoegd in main.css om extra HTTP-
+   // verzoeken en render-blocking te voorkomen.
+   // Dit bestand blijft bewaard voor eventuele
+   // toekomstige pagina-specifieke uitbreidingen.
+   ============================================ */
