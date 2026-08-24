@@ -89,27 +89,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <!-- // IMG: expliciete width/height voorkomt layout shift -->
                 <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="hero-logo" width="293" height="160">
                 <span class="hero-badge">Vakkundig &amp; Betrouwbaar</span>
-                <h1>Exclusieve Tuinen,<br>Vakkundig Gerealiseerd</h1>
+                <!-- // H1: aangescherpt voor Message Match met de "hovenier algemeen" advertentiegroep -->
+                <h1>Uw Hovenier in Baarn,<br>Vakkundig &amp; Vertrouwd</h1>
                 <p>Met meer dan 10 jaar ervaring transformeren wij jouw buitenruimte tot een luxe leefomgeving. Actief in Baarn en omgeving.</p>
+                <!-- // Sectie: Lokale signalen & vertrouwenselementen – direct zichtbaar boven de vouw -->
+                <div class="trust-badges-row">
+                    <span class="trust-badge"><span class="badge-stars">★★★★★</span> 5,0 op basis van reviews</span>
+                    <span class="trust-badge">📍 20 km rond Baarn</span>
+                    <span class="trust-badge">🛡️ Verzekerd &amp; vakkundig</span>
+                </div>
                 <ul class="hero-usp-list">
                     <li><span class="hero-usp-icon">🌿</span> Tuinaanleg op maat</li>
                     <li><span class="hero-usp-icon">✂️</span> Periodiek tuinonderhoud</li>
                     <li><span class="hero-usp-icon">📍</span> Actief in 20 km rond Baarn</li>
                 </ul>
                 <div class="hero-buttons">
-                    <a href="#offerte" class="btn btn-primary">Vraag een offerte aan</a>
-                    <a href="#diensten" class="btn btn-outline">Bekijk onze diensten</a>
+                    <a href="#snel-offerte" class="btn btn-primary">Vraag een offerte aan</a>
+                    <a href="tel:+31614717444" class="btn btn-outline btn-call">📞 Bel direct</a>
                 </div>
             </div>
 
             <!-- Rechts: foto in gouden frame met badge -->
+            <!-- // FIX: mobiel en desktop tonen nu exact dezelfde foto (voorheen wees de desktop-fallback naar een afwijkende foto) -->
             <div class="hero-right">
                 <div class="hero-img-frame">
                     <picture>
                         <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                         <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
                         <!-- // IMG: width/height op fallback img voor CLS-preventie -->
-                        <img src="img/tuin-oplevering2-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager" width="440" height="420">
+                        <img src="img/tuin-oplevering-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager" width="440" height="420">
                     </picture>
                     <div class="hero-img-badge">
                         <span class="hero-img-badge-num">10+</span>
@@ -118,6 +126,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- // QUICK-QUOTE SECTIE: compact offerteformulier direct onder de hero (max. 4 velden) -->
+    <!-- // Doel: bezoekers kunnen zonder diep te scrollen direct een aanvraag indienen – verbetert Landingpagina-ervaring & Kwaliteitsscore -->
+    <section class="quick-quote-section" id="snel-offerte">
+        <div class="container quick-quote-wrapper">
+            <div class="quick-quote-intro">
+                <span class="section-label">Direct antwoord</span>
+                <h2>Vraag in 30 seconden een offerte aan</h2>
+                <p>Vul uw gegevens in en wij nemen binnen 24 uur persoonlijk contact met u op.</p>
+                <ul class="quick-trust-list">
+                    <li>✓ Gratis &amp; vrijblijvend</li>
+                    <li>✓ Reactie binnen 24 uur</li>
+                    <li>✓ Vakkundig, verzekerd &amp; lokaal</li>
+                </ul>
+            </div>
+            <form class="tt-quote-form quick-quote-form" novalidate aria-label="Snel offerte aanvragen">
+                <div class="form-group">
+                    <label for="qi-naam">Naam <span class="required">*</span></label>
+                    <input type="text" id="qi-naam" name="naam" placeholder="Uw naam" required>
+                </div>
+                <div class="form-group">
+                    <label for="qi-telefoon">Telefoon <span class="required">*</span></label>
+                    <input type="tel" id="qi-telefoon" name="telefoon" placeholder="06 12 34 56 78" required>
+                </div>
+                <div class="form-group">
+                    <label for="qi-email">E-mail <span class="required">*</span></label>
+                    <input type="email" id="qi-email" name="email" placeholder="jan@voorbeeld.nl" required>
+                </div>
+                <div class="form-group">
+                    <label for="qi-dienst">Gewenste dienst <span class="required">*</span></label>
+                    <select id="qi-dienst" name="dienst" required>
+                        <option value="">-- Kies --</option>
+                        <option value="aanleg">Tuinaanleg</option>
+                        <option value="onderhoud">Tuinonderhoud</option>
+                        <option value="beregening">Beregening &amp; Irrigatie</option>
+                        <option value="meerdere">Weet ik nog niet</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary submit-btn">Offerte Aanvragen →</button>
+                <p class="form-privacy">Gratis en vrijblijvend. Uw gegevens worden alleen gebruikt voor het verwerken van uw aanvraag.</p>
+            </form>
         </div>
     </section>
 
@@ -134,10 +185,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <!-- // Route-kaart 1: Tuinaanleg – linkt direct naar aanleg.html -->
                 <a href="aanleg.html" class="route-card route-card-aanleg">
+                    <!-- // FIX: mobiel en desktop tonen nu dezelfde foto -->
                     <picture>
                         <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                        <source srcset="img/tuin-oplevering2-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/tuin-oplevering2-desktop.webp" alt="Tuinaanleg en tuinrenovatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg en tuinrenovatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
                     </picture>
                     <div class="route-card-content">
                         <span class="route-card-icon">🌿</span>
@@ -149,11 +201,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <!-- // Route-kaart 2: Tuinonderhoud – linkt direct naar onderhoud.html -->
                 <a href="onderhoud.html" class="route-card route-card-onderhoud">
-                    <picture>
-                        <source srcset="img/onderhoud-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                        <source srcset="img/tuin-onderhoud800.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/tuin-onderhoud800.webp" alt="Periodiek tuinonderhoud door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
-                    </picture>
+                    <!-- // FIX: onderhoud-mobiel.webp bestaat niet in img/, dus mobiel en desktop tonen nu allebei onderhoud-desktop.webp (voorkomt gebroken afbeelding op mobiel) -->
+                    <img src="img/onderhoud-desktop.webp" alt="Periodiek tuinonderhoud door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
                     <div class="route-card-content">
                         <span class="route-card-icon">✂️</span>
                         <h3>Tuinonderhoud &amp; Snoeiwerk</h3>
@@ -213,7 +262,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
 
                 <!-- Rechts: formulier -->
-                <form id="quoteForm" class="quote-form" novalidate>
+                <form id="quoteForm" class="quote-form tt-quote-form" novalidate>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="naam">Uw naam <span class="required">*</span></label>

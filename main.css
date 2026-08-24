@@ -1228,9 +1228,9 @@ nav a.nav-cta:hover {
         text-align: center;
     }
 
+    /* // Sectie: Mobiel/tablet volgt exact dezelfde volgorde als desktop (tekst eerst, foto daarna) – geen order-swap */
     .hero-left {
         align-items: center;
-        order: 2;
         text-align: center;
     }
 
@@ -1243,10 +1243,6 @@ nav a.nav-cta:hover {
         text-align: left;
         width: 100%;
         max-width: 360px;
-    }
-
-    .hero-right {
-        order: 1;
     }
 
     .hero-img {
@@ -1284,18 +1280,14 @@ nav a.nav-cta:hover {
         text-align: center;
     }
 
+    /* // Sectie: geen order-swap – mobiel toont exact dezelfde volgorde als desktop (tekst eerst, foto daarna) */
     .hero-left {
         align-items: center;
-        order: 2;
     }
 
     .hero-logo {
         height: 48px;
         margin-bottom: 20px;
-    }
-
-    .hero-right {
-        order: 1;
     }
 
     .hero-img {
@@ -1559,7 +1551,8 @@ nav a.nav-cta:hover {
     box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
 }
 
-.page-hero-content .btn-primary {
+.page-hero-content .btn-primary,
+.page-hero-content .btn-outline {
     padding: 14px 36px;
     font-size: 1rem;
 }
@@ -2539,6 +2532,148 @@ nav a.nav-cta:hover {
     .faq-item summary {
         font-size: 0.92rem;
         padding: 16px 32px 16px 0;
+    }
+}
+
+/* ============================================
+   // TRUST BADGES – lokale signalen & vertrouwen, direct onder de H1
+   // Gebruikt op index.html / aanleg.html / onderhoud.html hero's
+   ============================================ */
+.trust-badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin-bottom: 26px;
+}
+
+.trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--dark-5);
+    padding: 7px 14px;
+    border-radius: 50px;
+    white-space: nowrap;
+}
+
+.trust-badge .badge-stars {
+    color: var(--gold);
+    letter-spacing: 1px;
+}
+
+/* // Klik-om-te-bellen knop: gebruikt de bestaande .btn-outline stijl met icoon */
+.btn-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   // QUICK-QUOTE SECTIE – Compact offerteformulier boven/net onder de vouw
+   // Gebruikt op index.html, aanleg.html en onderhoud.html direct na de hero
+   // Max. 4 velden voor snelle conversie zonder scroll-drempel
+   ============================================ */
+.quick-quote-section {
+    background: rgba(30,30,30,0.55);
+    border-top: 1px solid var(--dark-5);
+    border-bottom: 1px solid var(--dark-5);
+    padding: 44px 0;
+    backdrop-filter: blur(6px);
+}
+
+.quick-quote-wrapper {
+    display: grid;
+    grid-template-columns: 0.9fr 1.4fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.quick-quote-intro .section-label {
+    margin-bottom: 8px;
+}
+
+.quick-quote-intro h2 {
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.25;
+}
+
+.quick-quote-intro p {
+    color: var(--text-muted);
+    font-size: 0.94rem;
+    line-height: 1.65;
+    margin-bottom: 16px;
+}
+
+.quick-trust-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.quick-trust-list li {
+    font-size: 0.88rem;
+    color: var(--text);
+}
+
+.quick-quote-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: start;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+    padding: 26px;
+}
+
+.quick-quote-form .form-group {
+    margin-bottom: 0;
+}
+
+.quick-quote-form .submit-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 2px;
+}
+
+.quick-quote-form .form-privacy {
+    grid-column: 1 / -1;
+    margin-top: 0;
+}
+
+/* ============================================
+   // RESPONSIVE: Trust badges & Quick-quote – tablet/mobiel
+   ============================================ */
+@media (max-width: 1000px) {
+    .quick-quote-wrapper {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .quick-quote-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .trust-badges-row {
+        justify-content: center;
+    }
+
+    .quick-quote-section {
+        padding: 36px 0;
+    }
+
+    .quick-quote-form {
+        grid-template-columns: 1fr;
+        padding: 22px 18px;
     }
 }
 

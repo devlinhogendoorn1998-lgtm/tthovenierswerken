@@ -242,118 +242,106 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
         });
 }
 
-// Sectie: Offerte formulier – validatie & verzenden via EmailJS (index.html – aanleg/onderhoud/beregening/meerdere)
+// Sectie: Offerte formulieren – validatie & verzenden via EmailJS
+// Ondersteunt MEERDERE formulieren per pagina (bv. een compact formulier
+// boven de vouw + het uitgebreide formulier lager op de pagina) via de
+// gedeelde class "tt-quote-form". Veldreferenties gebeuren via [name="..."]
+// gescopeerd op het specifieke formulier, zodat id's niet dubbel hoeven te zijn.
 (function () {
-    const form = document.getElementById('quoteForm');
-    if (!form) return;
+    const forms = document.querySelectorAll('.tt-quote-form');
+    if (!forms.length) return;
 
-    // Succes modal elementen
     const successModal = document.getElementById('successModal');
-    const successClose = document.getElementById('successClose');
 
-    // Sluit modal bij klik op knop of buiten de box
-    if (successClose) {
-        successClose.addEventListener('click', function () {
-            successModal.style.display = 'none';
-            document.body.style.overflow = '';
-        });
-    }
-    if (successModal) {
-        successModal.addEventListener('click', function (e) {
-            if (e.target === successModal) {
-                successModal.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        });
-    }
+    // Sectie: Dienst-labels – gedeeld door alle offerteformulieren op de site
+    const dienstLabels = {
+        aanleg:      'Tuinaanleg',
+        onderhoud:   'Tuinonderhoud',
+        beregening:  'Beregening & Irrigatie',
+        meerdere:    'Meerdere diensten'
+    };
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+    forms.forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        // Eenvoudige validatie
-        const naam      = document.getElementById('naam');
-        const telefoon  = document.getElementById('telefoon');
-        const email     = document.getElementById('email');
-        const adres     = document.getElementById('adres');
-        const dienst    = document.getElementById('dienst');
+            // Veldreferenties: gescopeerd binnen dít formulier via [name]
+            const naam      = form.querySelector('[name="naam"]');
+            const telefoon  = form.querySelector('[name="telefoon"]');
+            const email     = form.querySelector('[name="email"]');
+            const adres     = form.querySelector('[name="adres"]');
+            const dienst    = form.querySelector('[name="dienst"]');
+            const berichtEl = form.querySelector('[name="bericht"]');
 
-        let geldig = true;
-        const velden = [naam, telefoon, email, adres, dienst];
+            // Eenvoudige validatie – verborgen (preset) velden worden nooit gevalideerd
+            let geldig = true;
+            [naam, telefoon, email, adres, dienst].forEach(function (veld) {
+                if (!veld || veld.type === 'hidden') return;
+                if (!veld.value.trim()) {
+                    veld.style.borderColor = '#e05555';
+                    geldig = false;
+                } else {
+                    veld.style.borderColor = '';
+                }
+            });
 
-        velden.forEach(function (veld) {
-            if (!veld) return;
-            if (!veld.value.trim()) {
-                veld.style.borderColor = '#e05555';
+            // E-mail validatie
+            if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                email.style.borderColor = '#e05555';
                 geldig = false;
-            } else {
-                veld.style.borderColor = '';
             }
+
+            if (!geldig) {
+                // Scroll naar eerste fout
+                const eersteVeld = form.querySelector('[style*="e05555"]');
+                if (eersteVeld) {
+                    eersteVeld.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    eersteVeld.focus();
+                }
+                return;
+            }
+
+            // Bouw template parameters op voor EmailJS
+            const dienstWaarde = dienst ? dienst.value : '';
+            const dienstLabel  = dienstLabels[dienstWaarde] || dienstWaarde || 'Niet gespecificeerd';
+            const berichtTekst = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
+
+            // Template variabelen – komen overeen met {{variabele}} in EmailJS template
+            const templateParams = {
+                naam:        naam.value.trim(),
+                telefoon:    telefoon.value.trim(),
+                phone:       telefoon.value.trim(),
+                email:       email.value.trim(),
+                adres:       adres ? adres.value.trim() : 'Niet opgegeven',
+                dienst:      dienstLabel,
+                bericht:     berichtTekst,
+                to_email:    'info@tthovenierswerken.nl'
+            };
+
+            const submitBtn = form.querySelector('.submit-btn');
+
+            // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als de beregening-rekentool
+            ttVerzendAanvraag(templateParams, submitBtn, function () {
+                // Registreer Google Ads conversie bij succesvolle verzending
+                ttTrackConversion();
+                // Toon succes modal
+                if (successModal) {
+                    successModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+                // Reset formulier
+                form.reset();
+            });
         });
 
-        // E-mail validatie
-        if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-            email.style.borderColor = '#e05555';
-            geldig = false;
-        }
-
-        if (!geldig) {
-            // Scroll naar eerste fout
-            const eersteVeld = form.querySelector('[style*="e05555"]');
-            if (eersteVeld) {
-                eersteVeld.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                eersteVeld.focus();
-            }
-            return;
-        }
-
-        // Bouw template parameters op voor EmailJS
-        const dienstLabels = {
-            aanleg:      'Tuinaanleg',
-            onderhoud:   'Tuinonderhoud',
-            beregening:  'Beregening & Irrigatie',
-            meerdere:    'Meerdere diensten'
-        };
-
-        const berichtEl     = document.getElementById('bericht');
-
-        const dienstLabel   = dienstLabels[dienst.value] || dienst.value;
-        const berichtTekst  = (berichtEl && berichtEl.value.trim()) ? berichtEl.value.trim() : 'Geen omschrijving opgegeven';
-
-        // Template variabelen – komen overeen met {{variabele}} in EmailJS template
-        const templateParams = {
-            naam:        naam.value.trim(),
-            telefoon:    telefoon.value.trim(),
-            phone:       telefoon.value.trim(),
-            email:       email.value.trim(),
-            adres:       adres.value.trim(),
-            dienst:      dienstLabel,
-            bericht:     berichtTekst,
-            to_email:    'info@tthovenierswerken.nl'
-        };
-
-        const submitBtn = form.querySelector('.submit-btn');
-
-        // Verstuur via de gedeelde EmailJS-koppeling ("1 ding") – zelfde functie als de beregening-rekentool
-        ttVerzendAanvraag(templateParams, submitBtn, function () {
-            // Registreer Google Ads conversie bij succesvolle verzending
-            ttTrackConversion();
-            // Toon succes modal
-            if (successModal) {
-                successModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
-            // Reset formulier
-            form.reset();
-        });
-    });
-
-    // Verwijder rode rand bij typen
-    form.querySelectorAll('input, select, textarea').forEach(function (veld) {
-        veld.addEventListener('input', function () {
-            this.style.borderColor = '';
-        });
-        veld.addEventListener('change', function () {
-            this.style.borderColor = '';
+        // Verwijder rode rand bij typen
+        form.querySelectorAll('input, select, textarea').forEach(function (veld) {
+            veld.addEventListener('input', function () {
+                this.style.borderColor = '';
+            });
+            veld.addEventListener('change', function () {
+                this.style.borderColor = '';
+            });
         });
     });
 })();

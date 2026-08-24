@@ -103,7 +103,7 @@
                 <a href="index.html">Home</a>
                 <a href="index.html#diensten">Diensten</a>
                 <a href="index.html#werkgebied">Werkgebied</a>
-                <a href="index.html#offerte" class="nav-cta">Offerte Aanvragen</a>
+                <a href="#snel-offerte-aanleg" class="nav-cta">Offerte Aanvragen</a>
             </nav>
         </div>
     </header>
@@ -172,14 +172,20 @@
                 <span class="hero-badge">Onze dienst</span>
                 <h1>Van kale grond<br>tot droomtuin</h1>
                 <p>Van een eerste schets tot de definitieve oplevering – wij realiseren uw droomtuin met vakmanschap, hoogwaardige materialen en oog voor elk detail.</p>
+                <!-- // Sectie: Lokale signalen & vertrouwenselementen – direct zichtbaar boven de vouw -->
+                <div class="trust-badges-row">
+                    <span class="trust-badge"><span class="badge-stars">★★★★★</span> 5,0 op basis van reviews</span>
+                    <span class="trust-badge">📍 20 km rond Baarn</span>
+                    <span class="trust-badge">🛡️ Verzekerd &amp; vakkundig</span>
+                </div>
                 <ul class="hero-usp-list">
                     <li><span class="hero-usp-icon">🌿</span> Persoonlijk tuinontwerp op maat</li>
                     <li><span class="hero-usp-icon">🧱</span> Bestrating, beplanting &amp; verlichting</li>
                     <li><span class="hero-usp-icon">✅</span> Vaste offerte, geen verrassingen</li>
                 </ul>
                 <div class="hero-buttons">
-                    <a href="index.html#offerte" class="btn btn-primary">Vraag een offerte aan</a>
-                    <a href="#werkwijze" class="btn btn-outline">Bekijk onze werkwijze</a>
+                    <a href="#snel-offerte-aanleg" class="btn btn-primary">Vraag een offerte aan</a>
+                    <a href="tel:+31614717444" class="btn btn-outline btn-call">📞 Bel direct</a>
                 </div>
             </div>
 
@@ -198,6 +204,44 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- // QUICK-QUOTE SECTIE: compact offerteformulier direct onder de hero (max. 4 velden) -->
+    <!-- // Dienst staat vast op "Tuinaanleg" – perfecte Message Match met de "tuinaanleg" advertentiegroep -->
+    <section class="quick-quote-section" id="snel-offerte-aanleg">
+        <div class="container quick-quote-wrapper">
+            <div class="quick-quote-intro">
+                <span class="section-label">Direct antwoord</span>
+                <h2>Vraag in 30 seconden een tuinaanleg-offerte aan</h2>
+                <p>Vul uw gegevens in en wij nemen binnen 24 uur persoonlijk contact met u op voor een gratis nameting.</p>
+                <ul class="quick-trust-list">
+                    <li>✓ Gratis &amp; vrijblijvend</li>
+                    <li>✓ Reactie binnen 24 uur</li>
+                    <li>✓ Vaste offerte, geen verrassingen</li>
+                </ul>
+            </div>
+            <form class="tt-quote-form quick-quote-form" novalidate aria-label="Snel offerte aanvragen voor tuinaanleg">
+                <input type="hidden" name="dienst" value="aanleg">
+                <div class="form-group">
+                    <label for="qa-naam">Naam <span class="required">*</span></label>
+                    <input type="text" id="qa-naam" name="naam" placeholder="Uw naam" required>
+                </div>
+                <div class="form-group">
+                    <label for="qa-telefoon">Telefoon <span class="required">*</span></label>
+                    <input type="tel" id="qa-telefoon" name="telefoon" placeholder="06 12 34 56 78" required>
+                </div>
+                <div class="form-group">
+                    <label for="qa-email">E-mail <span class="required">*</span></label>
+                    <input type="email" id="qa-email" name="email" placeholder="jan@voorbeeld.nl" required>
+                </div>
+                <div class="form-group">
+                    <label for="qa-adres">Postcode / Plaats <span class="required">*</span></label>
+                    <input type="text" id="qa-adres" name="adres" placeholder="Bijv. 3741 AB Baarn" required>
+                </div>
+                <button type="submit" class="btn btn-primary submit-btn">Offerte Aanvragen →</button>
+                <p class="form-privacy">Gratis en vrijblijvend. Uw gegevens worden alleen gebruikt voor het verwerken van uw aanvraag.</p>
+            </form>
         </div>
     </section>
 
@@ -256,7 +300,7 @@
                         <li>Installatie van tuinverlichting en waterpartijen</li>
                         <li>Oplevering inclusief eindcontrole</li>
                     </ul>
-                    <a href="index.html#offerte" class="btn btn-primary" style="margin-top: 28px;">Gratis offerte aanvragen</a>
+                    <a href="#snel-offerte-aanleg" class="btn btn-primary" style="margin-top: 28px;">Gratis offerte aanvragen</a>
                 </div>
 
                 <!-- // Rechts: Gelaagde fotostapel – 2 projectfoto's in een premium portfolio-uitstraling -->
@@ -350,13 +394,25 @@
         </div>
     </section>
 
+    <!-- // REVIEWS SECTIE: Trustoo widget – social proof direct voor de slot-CTA -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <span class="section-label">Wat klanten zeggen</span>
+            <h2>Onze klantbeoordelingen</h2>
+            <p class="subtitle">Ontdek waarom klanten in Baarn en omgeving voor TT Hovenierswerken kiezen.</p>
+            <!-- // Trustoo Widget: async script + widget-container -->
+            <script async src="https://static.trustoo.nl/widget/widget_v2.js"></script>
+            <div class="trustoo-widget" data-id="jdEjFeGbGWTo2w3EDPlZs9yPjP7haqP3FF2F7_C6-pwobQ" data-language-code="nl" data-country-code="NL" data-badge="hidden" data-quote="default" data-size="small" data-type="landscape" data-border="shadow" data-theme="dark" data-background="default" data-google="default"></div>
+        </div>
+    </section>
+
     <!-- // CTA SECTIE -->
     <section class="cta-section">
         <div class="container">
             <span class="section-label">Klaar om te beginnen?</span>
             <h2>Laat uw droomtuin realiseren</h2>
             <p>Vraag vandaag nog een vrijblijvende offerte aan. Wij zijn actief in Baarn en een straal van 20 km.</p>
-            <a href="index.html#offerte" class="btn btn-primary">Offerte aanvragen</a>
+            <a href="#snel-offerte-aanleg" class="btn btn-primary">Offerte aanvragen</a>
         </div>
     </section>
 
@@ -381,7 +437,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="index.html#diensten">Onze diensten</a></li>
                     <li><a href="index.html#werkgebied">Werkgebied</a></li>
-                    <li><a href="index.html#offerte">Offerte aanvragen</a></li>
+                    <li><a href="#snel-offerte-aanleg">Offerte aanvragen</a></li>
                 </ul>
             </div>
             <div class="footer-links">
@@ -395,7 +451,8 @@
                 <h3 class="footer-heading">Contact</h3>
                 <p>Baarn en omgeving</p>
                 <p>Werkgebied: 20 km radius</p>
-                <a href="index.html#offerte" class="btn btn-outline footer-btn">Offerte aanvragen</a>
+                <p>📞 <a href="tel:+31614717444">06 14 71 74 44</a></p>
+                <a href="#snel-offerte-aanleg" class="btn btn-outline footer-btn">Offerte aanvragen</a>
             </div>
         </div>
         <!-- // Footer Bottom: KVK, BTW en copyright -->
@@ -422,6 +479,19 @@
         </svg>
         <span class="whatsapp-tooltip">WhatsApp ons!</span>
     </a>
+
+    <!-- // EmailJS SDK: asynchroon geladen, geen render-blocking – vereist voor het quick-offerteformulier -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- // Succes Modal: toont bevestiging na verzenden formulier -->
+    <div id="successModal" class="success-modal" role="dialog" aria-modal="true" aria-labelledby="successTitle" style="display:none;">
+        <div class="success-modal-box">
+            <div class="success-icon">✓</div>
+            <h3 id="successTitle">Bedankt voor uw aanvraag!</h3>
+            <p>Uw bericht is succesvol ontvangen. Wij nemen binnen <strong>24 uur</strong> contact met u op.</p>
+            <button class="btn btn-primary" id="successClose">Sluiten</button>
+        </div>
+    </div>
 
     <!-- // JavaScript: defer voorkomt render-blocking -->
     <script src="script.js" defer></script>
