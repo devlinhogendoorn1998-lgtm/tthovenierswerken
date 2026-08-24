@@ -17,9 +17,11 @@
     let startTime = performance.now();
 
     // Bereken hexagon grid
-    // Sectie: DOM reads eerst, daarna writes – voorkomt forced reflow
+    // // Sectie: forced-reflow fix – window.innerWidth/innerHeight worden hier gecached (batch read)
+    // // vóórdat canvas.width/height wordt geschreven (batch write). Zo dwingt de browser geen
+    // // synchrone style-/layout-berekening af tussen lezen en schrijven van geometrie.
     function buildGrid() {
-        // Lees dimensies eerst (batch read)
+        // Lees dimensies eerst (batch read) – gecachte waarden, geen herhaalde geometry-reads
         const newW = window.innerWidth;
         const newH = window.innerHeight;
         // Schrijf daarna naar canvas (batch write)
@@ -149,7 +151,9 @@
     const header = document.querySelector('.site-header');
     if (!header) return;
 
-    // Sectie: Scroll handler – lees scrollY eerst, schrijf stijl daarna via rAF
+    // // Sectie: forced-reflow fix – window.scrollY wordt eerst gelezen (batch read) en gecached
+    // // in 'scrolled'; de daadwerkelijke DOM-write (boxShadow) gebeurt daarna pas in requestAnimationFrame
+    // // (batch write), zodat lezen en schrijven van geometrie niet in dezelfde synchrone taak vallen.
     function onScroll() {
         // Batch read: lees geometrische waarde buiten rAF
         const scrolled = window.scrollY > 60;
@@ -483,6 +487,9 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
     }
 
     // // Ga naar een specifieke stap en werk de voortgangsindicator bij
+    // // Sectie: forced reflow fix – classList-writes (boven) en getBoundingClientRect-read (onder)
+    // // stonden voorheen in dezelfde synchrone taak; de read is nu verplaatst naar requestAnimationFrame
+    // // zodat de browser stijlwijzigingen kan batchen vóór de geometrie wordt opgevraagd.
     function goToStep(stepNum) {
         steps.forEach(function (step) {
             step.classList.toggle('active', step.getAttribute('data-step') === String(stepNum));
@@ -492,14 +499,16 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
             ps.classList.toggle('active', n === stepNum);
             ps.classList.toggle('done', n < stepNum);
         });
-        // // Scroll de calculator-box in beeld bij stapwissel op mobiel
-        const box = document.querySelector('.calculator-box');
-        if (box) {
-            const rect = box.getBoundingClientRect();
-            if (rect.top < 0 || rect.top > window.innerHeight * 0.5) {
-                box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // // Scroll de calculator-box in beeld bij stapwissel op mobiel – read uitgesteld naar rAF
+        requestAnimationFrame(function () {
+            const box = document.querySelector('.calculator-box');
+            if (box) {
+                const rect = box.getBoundingClientRect();
+                if (rect.top < 0 || rect.top > window.innerHeight * 0.5) {
+                    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
-        }
+        });
     }
 
     // // Stap 1: Grondsoort selectie

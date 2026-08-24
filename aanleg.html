@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <!-- // Resource Hints: preconnect naar Trustoo domeinen voor snellere widget-load -->
+    <link rel="preconnect" href="https://static.trustoo.nl" crossorigin>
+    <link rel="preconnect" href="https://trustoo.nl">
 
     <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
@@ -37,8 +40,8 @@
     <!-- // Favicon: eigen favicon toegevoegd -->
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="apple-touch-icon" href="img/favicon.png">
-    <!-- // CSS: samengevoegd tot één bestand voor minder render-blocking verzoeken -->
-    <link rel="stylesheet" href="main.css">
+    <!-- // CSS: samengevoegd + geminificeerd tot één bestand voor minder render-blocking verzoeken en kleinere payload -->
+    <link rel="stylesheet" href="main.min.css">
     <!-- // JSON-LD: FAQPage schema t.b.v. rich snippets in Google (SEO-boost, geen impact op performance) -->
     <script type="application/ld+json">
     {
@@ -93,7 +96,7 @@
     <!-- // HEADER: Vaste navigatie met logo en klinker achtergrond -->
     <header class="site-header">
         <div class="container nav-container">
-            <a href="index.html" class="logo-link">
+            <a href="index.html" class="logo-link" aria-label="TT Hovenierswerken - Naar de homepage">
                 <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo" width="132" height="72">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
@@ -480,8 +483,8 @@
         <span class="whatsapp-tooltip">WhatsApp ons!</span>
     </a>
 
-    <!-- // EmailJS SDK: asynchroon geladen, geen render-blocking – vereist voor het quick-offerteformulier -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- // EmailJS SDK: defer voorkomt render-blocking, laadt na HTML-parsing net als script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
     <!-- // Succes Modal: toont bevestiging na verzenden formulier -->
     <div id="successModal" class="success-modal" role="dialog" aria-modal="true" aria-labelledby="successTitle" style="display:none;">
@@ -493,8 +496,8 @@
         </div>
     </div>
 
-    <!-- // JavaScript: defer voorkomt render-blocking -->
-    <script src="script.js" defer></script>
+    <!-- // JavaScript: geminificeerd + defer voorkomt render-blocking en verkleint payload -->
+    <script src="script.min.js" defer></script>
     <script src="cookie.js" defer></script>
 </body>
 </html>

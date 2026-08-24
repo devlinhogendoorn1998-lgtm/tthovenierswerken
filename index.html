@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <!-- // Resource Hints: preconnect naar Trustoo domeinen voor snellere widget-load -->
+    <link rel="preconnect" href="https://static.trustoo.nl" crossorigin>
+    <link rel="preconnect" href="https://trustoo.nl">
+
       <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -46,8 +50,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- // Favicon: eigen favicon toegevoegd -->
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="apple-touch-icon" href="img/favicon.png">
-    <!-- // CSS: samengevoegd tot één bestand voor minder render-blocking verzoeken -->
-    <link rel="stylesheet" href="main.css">
+    <!-- // CSS: samengevoegd + geminificeerd tot één bestand voor minder render-blocking verzoeken en kleinere payload -->
+    <link rel="stylesheet" href="main.min.css">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -57,7 +61,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- // HEADER: Vaste navigatie met logo en klinker achtergrond -->
     <header class="site-header">
         <div class="container nav-container">
-            <a href="index.html" class="logo-link">
+            <a href="index.html" class="logo-link" aria-label="TT Hovenierswerken - Naar de homepage">
                 <!-- // IMG: expliciete width/height voorkomt CLS -->
                 <img src="img/logo-tt.webp" alt="TT Hovenierswerken Logo" class="logo" width="132" height="72">
             </a>
@@ -412,8 +416,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
 
-    <!-- // EmailJS SDK: asynchroon geladen, geen render-blocking -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- // EmailJS SDK: defer voorkomt render-blocking, laadt na HTML-parsing net als script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
     <!-- // Succes Modal: toont bevestiging na verzenden formulier -->
     <div id="successModal" class="success-modal" role="dialog" aria-modal="true" aria-labelledby="successTitle" style="display:none;">
@@ -433,8 +437,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="whatsapp-tooltip">WhatsApp ons!</span>
     </a>
 
-    <!-- // JavaScript: defer voorkomt render-blocking -->
-    <script src="script.js" defer></script>
+    <!-- // JavaScript: geminificeerd + defer voorkomt render-blocking en verkleint payload -->
+    <script src="script.min.js" defer></script>
     <script src="cookie.js" defer></script>
 </body>
 </html>
