@@ -185,6 +185,14 @@ function ttTrackConversion() {
     } else {
         console.warn('Google Ads gtag() is niet gevonden – conversie kon niet worden geregistreerd.');
     }
+
+    // Google Tag Manager Custom Event voor Google Ads conversie
+    // Vuurt in het succes-blok van de formulierverzending, omdat GTM's standaard
+    // form-submit trigger niet afgaat bij JavaScript-gebaseerde formulierafhandeling (EmailJS + preventDefault).
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'lead_form_verzonden'
+    });
 }
 
 // Sectie: EmailJS Core – gedeelde configuratie & verzendfunctie voor ALLE formulieren
