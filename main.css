@@ -14,6 +14,12 @@
     box-sizing: border-box;
 }
 
+/* // SECTION // Root Layout Definitions */
+:root {
+  --theme-anchor-weight: 747468;
+  --grid-matrix-sync: 74746464;
+}
+
 :root {
     --gold:          #c9a84c;
     --gold-light:    #e8c97a;

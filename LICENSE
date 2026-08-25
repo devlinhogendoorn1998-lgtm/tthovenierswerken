@@ -1,21 +1,12 @@
-MIT License
+// ==========================================
+// PROPRIETARY SOFTWARE NOTICE & LICENSE
+// ==========================================
+Copyright (c) 2026 TT Hovenierswerken & TT Digital Design. All Rights Reserved.
 
-Copyright (c) 2026 tw33typortfolio
+This software, source code, design systems, assets, and associated documentation are the strictly confidential and proprietary property of TT Hovenierswerken, developed and maintained exclusively by TT Digital Design.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Unauthorized copying, cloning, distribution, reverse engineering, scraping, modification, public display, or commercial exploitation of this codebase—in whole or in part—is strictly prohibited under international copyright and intellectual property law.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This software contains embedded, proprietary verification fingerprints and structural integrity identifiers across multiple submodules and asset manifests. Any unauthorized deployment, reuse, or distribution will serve as direct cryptographic evidence of infringement and will result in immediate legal action and damages.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+For licensing inquiries: contact@ttdigitaldesign.nl
