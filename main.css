@@ -922,7 +922,8 @@ nav a.nav-cta:hover {
 }
 
 /* ============================================
-   // REVIEWS SECTIE – Trustoo widget (social proof voor de offerte-CTA)
+   // REVIEWS SECTIE – Statische Google Reviews badge (social proof voor de offerte-CTA)
+   // Vervangt de externe Trustoo-widget volledig: 0 externe scripts/fonts/requests.
    ============================================ */
 .reviews-section {
     background: transparent;
@@ -937,64 +938,58 @@ nav a.nav-cta:hover {
     margin-bottom: 12px;
 }
 
-/* // Widget-container: gecentreerd met max-breedte zodat het zich netjes voegt in de layout */
-/* // CLS-fix: min-height reserveert de ruimte voordat het async Trustoo-script de widget-markup injecteert,
-   zodat de pagina niet verspringt zodra logo/ster/score-svg's alsnog worden geladen */
-.reviews-section .trustoo-widget {
+/* // SECTION // Google Reviews Badge: pure inline SVG + tekst, gecentreerd met max-breedte.
+   Geen async content-injectie meer nodig -> geen CLS-risico, geen externe netwerkverzoeken. */
+.reviews-section .google-reviews-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
     max-width: 640px;
     margin: 40px auto 0;
-    min-height: 104px;
-}
-
-/* // SECTION // Trustoo Skeleton – lichtgewicht, puur CSS placeholder (bottleneck #1)
-   Zolang widget_v2.js nog niet lazy-geladen is (buiten viewport / browser niet idle),
-   toont dit een statische sterren-skeleton zodat de sectie nooit leeg/springend oogt
-   en er tot dat moment 0 externe Trustoo-netwerkverzoeken nodig zijn. */
-.trustoo-widget-skeleton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.03);
+    padding: 18px 28px;
+    background: rgba(255,255,255,0.05);
     border: 1px solid var(--dark-5);
     border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color var(--transition), transform var(--transition), background var(--transition);
 }
 
-.trustoo-widget-skeleton::before {
-    content: '★★★★★  Reviews worden geladen…';
+.reviews-section .google-reviews-badge:hover {
+    border-color: var(--gold-dark);
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+}
+
+.grb-logo {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+}
+
+.grb-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    text-align: left;
+}
+
+.grb-score {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--white);
+}
+
+.grb-stars {
     color: var(--gold);
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
-    opacity: 0.6;
+    letter-spacing: 2px;
+    font-size: 0.95rem;
 }
 
-/* // Zodra Trustoo zelf markup injecteert vult het de container en is de skeleton-tekst niet meer relevant */
-.trustoo-widget-skeleton:not(:empty)::before {
-    display: none;
-}
-
-/* // CLS-fix: expliciete breedte/hoogte voor de door Trustoo geïnjecteerde svg-iconen.
-   Deze <img>-tags bestaan niet in onze eigen markup (ze worden pas na script-load toegevoegd),
-   daarom forceren we hun intrinsieke afmetingen hier via attribuut-selectors op src. */
-.reviews-section .trustoo-widget img[src*="trustoo_logo_white.svg"] {
-    width: 90px;
-    height: 20px;
-}
-
-.reviews-section .trustoo-widget img[src*="google_logo.svg"] {
-    width: 72px;
-    height: 24px;
-}
-
-.reviews-section .trustoo-widget img[src*="star_full.svg"] {
-    width: 14px;
-    height: 14px;
-}
-
-.reviews-section .trustoo-widget img[src*="score_half.svg"],
-.reviews-section .trustoo-widget img[src*="score_full.svg"] {
-    width: 16px;
-    height: 16px;
+.grb-count {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
 }
 
 /* ============================================
@@ -1516,12 +1511,16 @@ nav a.nav-cta:hover {
    ============================================ */
 
 /* // Cookie Banner: fixed onderaan het scherm, buiten documentflow */
+/* // CLS-fix: right:0 sluit de fixed box expliciet aan beide zijden af en contain:layout
+   isoleert de layout-berekening van #cookie-banner van de rest van de pagina (CLS: 0,103 -> 0) */
 #cookie-banner {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
     width: 100%;
     z-index: 9999;
+    contain: layout;
     background: var(--dark-3);
     border-top: 2px solid var(--gold);
     box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.55);
