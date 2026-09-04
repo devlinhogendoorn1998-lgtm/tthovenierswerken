@@ -946,6 +946,33 @@ nav a.nav-cta:hover {
     min-height: 104px;
 }
 
+/* // SECTION // Trustoo Skeleton – lichtgewicht, puur CSS placeholder (bottleneck #1)
+   Zolang widget_v2.js nog niet lazy-geladen is (buiten viewport / browser niet idle),
+   toont dit een statische sterren-skeleton zodat de sectie nooit leeg/springend oogt
+   en er tot dat moment 0 externe Trustoo-netwerkverzoeken nodig zijn. */
+.trustoo-widget-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--dark-5);
+    border-radius: var(--radius);
+}
+
+.trustoo-widget-skeleton::before {
+    content: '★★★★★  Reviews worden geladen…';
+    color: var(--gold);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+}
+
+/* // Zodra Trustoo zelf markup injecteert vult het de container en is de skeleton-tekst niet meer relevant */
+.trustoo-widget-skeleton:not(:empty)::before {
+    display: none;
+}
+
 /* // CLS-fix: expliciete breedte/hoogte voor de door Trustoo geïnjecteerde svg-iconen.
    Deze <img>-tags bestaan niet in onze eigen markup (ze worden pas na script-load toegevoegd),
    daarom forceren we hun intrinsieke afmetingen hier via attribuut-selectors op src. */

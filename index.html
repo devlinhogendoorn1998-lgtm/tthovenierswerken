@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <!-- // Resource Hints: preconnect naar Trustoo domeinen voor snellere widget-load -->
-    <link rel="preconnect" href="https://static.trustoo.nl" crossorigin>
-    <link rel="preconnect" href="https://trustoo.nl">
-
-      <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KV63SQG9');</script>
-<!-- End Google Tag Manager -->
-
-    <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking Fundament -->
-    <!-- // Deze tag staat zo hoog mogelijk in de <head> geladen, conform de installatie-richtlijnen van Google Ads. -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
+    <!-- // SECTION // Tracking: Bottleneck #2 opgelost – GTM + gtag liepen dubbel (gtm.js + gtag/js
+         laadden ieder een eigen kopie van de Google-tagruntime, samen >450 KiB JS op de main thread).
+         GTM is hier verwijderd; gtag.js blijft over (wordt direct door script.js aangeroepen voor de
+         Ads-conversietracking) en krijgt "defer" zodat het de First Contentful Paint / LCP niet blokkeert. -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -50,16 +40,72 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- // Favicon: eigen favicon toegevoegd -->
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="apple-touch-icon" href="img/favicon.png">
-    <!-- // CSS: samengevoegd + geminificeerd tot één bestand voor minder render-blocking verzoeken en kleinere payload -->
-    <link rel="stylesheet" href="main.min.css">
+
+    <!-- // SECTION // Critical CSS – Header & Hero (above-the-fold, bottleneck #4)
+         main.min.css blokkeerde eerder het renderen (460 ms). De boven-de-vouw stijlen
+         (header + hero) staan hieronder inline zodat de browser direct kan tekenen; de rest
+         van main.min.css wordt hierna async geladen via preload + rel=stylesheet swap. -->
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--gold:#c9a84c;--gold-light:#e8c97a;--gold-dark:#9a7a2e;--dark:#0e0e0e;--dark-2:#161616;--dark-3:#1e1e1e;--dark-4:#272727;--dark-5:#333333;--text:#e0e0e0;--text-muted:#888888;--white:#ffffff;--header-height:80px;--radius:10px;--transition:0.3s ease}
+        html{background-color:var(--dark);scroll-behavior:smooth}
+        body{background-color:transparent;color:var(--text);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.7;overflow-x:hidden}
+        #hexagon-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:1}
+        body>*:not(#hexagon-canvas):not(#cookie-banner):not(.site-header):not(.whatsapp-float):not(.success-modal){position:relative;z-index:1}
+        img{max-width:100%;display:block}
+        a{text-decoration:none;color:inherit}
+        ul{list-style:none}
+        .container{width:90%;max-width:1200px;margin:0 auto}
+        .btn{display:inline-block;padding:13px 32px;font-weight:600;font-size:.95rem;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:background var(--transition),color var(--transition),transform var(--transition),border-color var(--transition);text-align:center}
+        .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);border-color:var(--gold)}
+        .btn-outline{background:transparent;color:var(--white);border-color:rgba(255,255,255,.45)}
+        .site-header{position:sticky;top:0;left:0;width:100%;height:var(--header-height);z-index:1000}
+        .site-header::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(0,0,0,.18) 18px,rgba(0,0,0,.18) 20px),repeating-linear-gradient(90deg,transparent,transparent 36px,rgba(0,0,0,.18) 36px,rgba(0,0,0,.18) 38px),linear-gradient(135deg,#c0622a 0%,#b85520 15%,#d4743a 25%,#c06030 35%,#a84e1e 45%,#cc6a32 55%,#b85a28 65%,#d07038 75%,#c06030 85%,#b05020 100%);background-size:38px 20px,38px 20px,100% 100%;z-index:0}
+        .site-header::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,.82) 0%,rgba(10,10,10,.65) 50%,rgba(10,10,10,.75) 100%);z-index:1}
+        .nav-container{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;height:var(--header-height);padding:0 20px}
+        .logo-link{display:flex;align-items:center;flex-shrink:0}
+        .logo{height:72px;width:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+        nav{display:flex;align-items:center;gap:8px}
+        nav a{color:var(--white);font-weight:500;font-size:.95rem;padding:8px 16px;border-radius:5px;transition:color var(--transition),background var(--transition);letter-spacing:.02em}
+        nav a.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);font-weight:700;padding:9px 22px;border-radius:6px;margin-left:8px}
+        .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:8px;z-index:10}
+        .nav-toggle span{display:block;width:26px;height:2px;background:var(--white);border-radius:2px;transition:transform var(--transition),opacity var(--transition)}
+        .hero{min-height:100vh;background:transparent;display:flex;align-items:center;padding:60px 20px;position:relative;overflow:hidden}
+        .hero-split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%}
+        .hero-left{display:flex;flex-direction:column;align-items:center}
+        .hero-logo{height:160px;width:auto;object-fit:contain;margin-bottom:28px;filter:drop-shadow(0 4px 18px rgba(0,0,0,.6))}
+        .hero-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid var(--gold-dark);color:var(--gold-light);font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:20px}
+        .hero-left h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:18px}
+        .hero-left p{font-size:1rem;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:24px;max-width:480px}
+        .trust-badges-row{display:flex;flex-wrap:wrap;gap:10px 14px;margin-bottom:26px}
+        .trust-badge{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:600;color:var(--text);background:rgba(255,255,255,.05);border:1px solid var(--dark-5);padding:7px 14px;border-radius:50px;white-space:nowrap}
+        .trust-badge .badge-stars{color:var(--gold);letter-spacing:1px}
+        .hero-usp-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+        .hero-usp-list li{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--text);font-weight:500}
+        .hero-usp-icon{font-size:1rem;flex-shrink:0}
+        .hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+        .btn-call{display:inline-flex;align-items:center;gap:8px}
+        .hero-right{display:flex;justify-content:center;align-items:center;flex-direction:column}
+        .hero-img-frame{position:relative;width:100%;max-width:440px;border-radius:16px;overflow:visible}
+        .hero-img-frame::before{content:'';position:absolute;inset:-3px;border-radius:18px;background:linear-gradient(135deg,var(--gold),transparent 50%,var(--gold-dark));z-index:0}
+        .hero-img{position:relative;z-index:1;width:100%;height:420px;object-fit:cover;object-position:center 55%;border-radius:14px;display:block}
+        .hero-img-badge{position:absolute;bottom:-18px;left:-18px;z-index:2;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+        .hero-img-badge-num{font-size:2rem;font-weight:900;line-height:1}
+        .hero-img-badge-txt{font-size:.78rem;font-weight:700;line-height:1.3;text-transform:uppercase;letter-spacing:.05em}
+        .hero-img-tag{display:none;position:absolute;top:16px;right:16px;z-index:2;align-items:center;gap:6px;background:rgba(14,14,14,.72);border:1px solid var(--gold-dark);color:var(--gold-light);font-size:.72rem;font-weight:700;letter-spacing:.03em;padding:7px 14px;border-radius:50px;backdrop-filter:blur(4px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+        .hero-img-cta-mobile{display:none}
+        @media (max-width:900px){.hero-split{grid-template-columns:1fr;gap:40px;text-align:center}.hero-left{align-items:center;text-align:center}.hero-left p{max-width:100%}.hero-usp-list{align-items:flex-start;text-align:left;width:100%;max-width:360px}.hero-img{height:300px;object-position:center 62%}.hero-img-badge{bottom:-14px;left:14px}}
+        @media (max-width:768px){:root{--header-height:68px}.nav-toggle{display:flex}nav{display:none;position:fixed;top:var(--header-height);left:0;right:0;background:rgba(14,14,14,.98);flex-direction:column;padding:24px 20px;gap:4px;border-bottom:1px solid var(--dark-5);backdrop-filter:blur(10px);z-index:999}nav.open{display:flex}nav a{padding:12px 16px;font-size:1rem;border-radius:6px;width:100%;text-align:left}nav a.nav-cta{margin-left:0;margin-top:8px;text-align:center}.hero{min-height:auto;padding:calc(var(--header-height) + 32px) 20px 48px}.hero-split{grid-template-columns:1fr;gap:32px;text-align:center}.hero-left{align-items:center}.hero-logo{height:48px;margin-bottom:20px}.hero-img-frame{max-width:100%}.hero-img-frame::after{content:'';position:absolute;inset:-28px;z-index:-1;background:radial-gradient(circle,rgba(201,168,76,.22) 0%,transparent 70%);pointer-events:none}.hero-img{height:260px;object-position:center 70%;border-radius:20px}.hero-img-frame::before{border-radius:22px}.hero-img-badge{bottom:-12px;left:12px;padding:10px 14px}.hero-img-badge-num{font-size:1.5rem}.hero-img-tag{display:flex}.hero-img-cta-mobile{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:440px;margin-top:20px;padding:14px 22px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);font-weight:700;font-size:.95rem;border-radius:50px;box-shadow:0 10px 28px rgba(201,168,76,.3);transition:transform var(--transition),box-shadow var(--transition)}.hero-usp-list{align-items:flex-start;text-align:left;width:100%}.hero-buttons{flex-direction:column;align-items:center;width:100%}.hero-buttons .btn{width:100%;text-align:center}}
+        @media (max-width:480px){.logo{height:44px}}
+    </style>
+    <!-- // SECTION // Non-critical CSS: async geladen via preload + onload-swap; noscript-fallback voor JS-uit -->
+    <link rel="preload" href="main.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="main.min.css"></noscript>
 </head>
 <body>
 <!-- // SECTION // Structural Shell Integrity -->
 <main id="app-viewport" data-build-integrity="tth-ttdd-2026-auth-0x181" aria-hidden="true" style="display:none"></main>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KV63SQG9"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<!-- // GTM-noscript iframe verwijderd samen met GTM (zie bottleneck #2 fix in <head>) -->
     <!-- // HEADER: Vaste navigatie met logo en klinker achtergrond -->
     <header class="site-header">
         <div class="container nav-container">
@@ -217,7 +263,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <!-- // Route-kaart 2: Tuinonderhoud – linkt direct naar onderhoud.html -->
                 <a href="onderhoud.html" class="route-card route-card-onderhoud">
                     <!-- // FIX: onderhoud-mobiel.webp bestaat niet in img/, dus mobiel en desktop tonen nu allebei onderhoud-desktop.webp (voorkomt gebroken afbeelding op mobiel) -->
-                    <img src="img/onderhoud-desktop.webp" alt="Periodiek tuinonderhoud door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                    <!-- // SECTION // Afbeeldingen: decoding="async" toegevoegd (bottleneck #4) zodat decoderen van deze below-the-fold afbeelding de main thread niet blokkeert -->
+                    <img src="img/onderhoud-desktop.webp" alt="Periodiek tuinonderhoud door TT Hovenierswerken" class="route-card-img" loading="lazy" decoding="async" width="600" height="400">
                     <div class="route-card-content">
                         <span class="route-card-icon">✂️</span>
                         <h3>Tuinonderhoud &amp; Snoeiwerk</h3>
@@ -231,7 +278,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <picture>
                         <source srcset="img/beregening-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                         <source srcset="img/beregening-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/beregening-desktop.webp" alt="Beregeningssystemen en irrigatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                        <img src="img/beregening-desktop.webp" alt="Beregeningssystemen en irrigatie door TT Hovenierswerken" class="route-card-img" loading="lazy" decoding="async" width="600" height="400">
                     </picture>
                     <div class="route-card-content">
                         <span class="route-card-icon">💧</span>
@@ -251,9 +298,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="section-label">Wat klanten zeggen</span>
             <h2>Onze klantbeoordelingen</h2>
             <p class="subtitle">Ontdek waarom klanten in Baarn en omgeving voor TT Hovenierswerken kiezen.</p>
-            <!-- // Trustoo Widget: async script + widget-container -->
-            <script async src="https://static.trustoo.nl/widget/widget_v2.js"></script>
-            <div class="trustoo-widget" data-id="jdEjFeGbGWTo2w3EDPlZs9yPjP7haqP3FF2F7_C6-pwobQ" data-language-code="nl" data-country-code="NL" data-badge="hidden" data-quote="default" data-size="small" data-type="landscape" data-border="shadow" data-theme="dark" data-background="default" data-google="default"></div>
+            <!-- // SECTION // Trustoo Widget: bottleneck #1 opgelost – het script wordt NIET meer direct
+                 geladen. De IntersectionObserver/requestIdleCallback-loader in script.min.js laadt
+                 widget_v2.js pas zodra deze container het viewport nadert of de browser idle is,
+                 zodat de 5 webfonts + SVG-iconen van Trustoo het initiële renderpad niet meer blokkeren. -->
+            <div class="trustoo-widget trustoo-widget-skeleton" data-id="jdEjFeGbGWTo2w3EDPlZs9yPjP7haqP3FF2F7_C6-pwobQ" data-language-code="nl" data-country-code="NL" data-badge="hidden" data-quote="default" data-size="small" data-type="landscape" data-border="shadow" data-theme="dark" data-background="default" data-google="default"></div>
         </div>
     </section>
 

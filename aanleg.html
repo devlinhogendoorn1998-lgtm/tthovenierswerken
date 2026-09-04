@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <!-- // Resource Hints: preconnect naar Trustoo domeinen voor snellere widget-load -->
-    <link rel="preconnect" href="https://static.trustoo.nl" crossorigin>
-    <link rel="preconnect" href="https://trustoo.nl">
+    <!-- // SECTION // Resource Hints: ongebruikte preconnects naar Trustoo verwijderd (bottleneck #1) –
+         het Trustoo-script wordt nu lazy geladen door script.min.js, dus preconnect is hier zinloze overhead. -->
 
-    <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
+    <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking – defer voorkomt blokkeren van FCP/LCP -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -410,9 +409,9 @@
             <span class="section-label">Wat klanten zeggen</span>
             <h2>Onze klantbeoordelingen</h2>
             <p class="subtitle">Ontdek waarom klanten in Baarn en omgeving voor TT Hovenierswerken kiezen.</p>
-            <!-- // Trustoo Widget: async script + widget-container -->
-            <script async src="https://static.trustoo.nl/widget/widget_v2.js"></script>
-            <div class="trustoo-widget" data-id="jdEjFeGbGWTo2w3EDPlZs9yPjP7haqP3FF2F7_C6-pwobQ" data-language-code="nl" data-country-code="NL" data-badge="hidden" data-quote="default" data-size="small" data-type="landscape" data-border="shadow" data-theme="dark" data-background="default" data-google="default"></div>
+            <!-- // SECTION // Trustoo Widget: bottleneck #1 opgelost – script.min.js laadt widget_v2.js
+                 lazy via IntersectionObserver/requestIdleCallback zodra deze container in beeld komt. -->
+            <div class="trustoo-widget trustoo-widget-skeleton" data-id="jdEjFeGbGWTo2w3EDPlZs9yPjP7haqP3FF2F7_C6-pwobQ" data-language-code="nl" data-country-code="NL" data-badge="hidden" data-quote="default" data-size="small" data-type="landscape" data-border="shadow" data-theme="dark" data-background="default" data-google="default"></div>
         </div>
     </section>
 

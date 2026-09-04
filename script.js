@@ -693,3 +693,55 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
         }
     });
 })();
+
+// Sectie: Trustoo Widget – Lazy Loader (lost bottleneck #1 uit Lighthouse op)
+// Het Trustoo-script (static.trustoo.nl/widget/widget_v2.js) trekt 5 webfonts + meerdere
+// SVG's binnen die niet gecachet worden en het first-screen renderpad vertragen.
+// In plaats van het script synchroon/async direct in <head> of bovenaan de sectie te laden,
+// wordt het pas ingeladen zodra de widget-container daadwerkelijk in (of vlak buiten) beeld
+// komt (IntersectionObserver), óf zodra de browser toch al idle is (requestIdleCallback),
+// óf bij de eerste gebruikersinteractie (scroll/touch/klik) als fallback voor oudere browsers.
+// Resultaat: 0 externe Trustoo-netwerkverzoeken tijdens het initiële renderpad -> snellere LCP.
+(function () {
+    const TRUSTOO_SRC = 'https://static.trustoo.nl/widget/widget_v2.js';
+    let trustooLoaded = false;
+
+    function loadTrustoo() {
+        if (trustooLoaded) return;
+        trustooLoaded = true;
+        const script = document.createElement('script');
+        script.src = TRUSTOO_SRC;
+        script.async = true;
+        document.body.appendChild(script);
+    }
+
+    const widgets = document.querySelectorAll('.trustoo-widget');
+    if (!widgets.length) return;
+
+    // Optie 1: laad zodra een widget-container het viewport nadert (200px marge)
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    loadTrustoo();
+                    observer.disconnect();
+                }
+            });
+        }, { rootMargin: '200px 0px' });
+        widgets.forEach(function (widget) { observer.observe(widget); });
+    } else {
+        // Fallback zonder IntersectionObserver: laad bij eerste scroll/interactie
+        ['scroll', 'touchstart', 'mousemove'].forEach(function (evt) {
+            window.addEventListener(evt, loadTrustoo, { passive: true, once: true });
+        });
+    }
+
+    // Optie 2: sowieso laden zodra de browser een idle-moment heeft (na render/LCP),
+    // zelfs als de widget nog niet in beeld is – voorkomt dat "traag scrollende" bezoekers
+    // de widget nooit krijgen ingeladen.
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadTrustoo, { timeout: 5000 });
+    } else {
+        setTimeout(loadTrustoo, 4000);
+    }
+})();
