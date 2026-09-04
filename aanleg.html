@@ -28,14 +28,15 @@
     <meta property="og:locale" content="nl_NL">
     <meta property="og:title" content="Tuinaanleg | TT Hovenierswerken – Baarn & Omgeving">
     <meta property="og:description" content="Professionele tuinaanleg op maat. Van ontwerp tot oplevering – TT Hovenierswerken realiseert uw droomtuin in Baarn en omgeving.">
-    <meta property="og:image" content="img/tuin-oplevering-desktop.webp">
+    <!-- // Sectie: social preview afbeelding bijgewerkt naar de nieuwe beginpagina-fotoset -->
+    <meta property="og:image" content="img/beginpagina800.webp">
     <meta property="og:url" content="https://www.tthovenierswerken.nl/aanleg.html">
     <meta property="og:type" content="website">
     <!-- // Twitter Card: fallback voor social previews -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Tuinaanleg | TT Hovenierswerken – Baarn & Omgeving">
     <meta name="twitter:description" content="Professionele tuinaanleg op maat. Van ontwerp tot oplevering in Baarn en omgeving.">
-    <meta name="twitter:image" content="img/tuin-oplevering-desktop.webp">
+    <meta name="twitter:image" content="img/beginpagina800.webp">
     <title>Tuinaanleg Baarn | Offerte binnen 24 uur – TT Hovenierswerken</title>
     <!-- // Favicon: eigen favicon toegevoegd -->
     <link rel="icon" type="image/png" href="img/favicon.png">
@@ -195,13 +196,17 @@
             </div>
 
             <!-- Rechts: uitgelichte projectfoto in gouden frame met badge -->
+            <!-- // Sectie: Hero-afbeelding – nieuwe beginpagina-fotoset (800px desktop/tablet, 400px mobiel) -->
             <div class="hero-right">
                 <div class="hero-img-frame">
                     <picture>
-                        <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/tuin-oplevering-desktop.webp" alt="Professioneel aangelegde tuin met bestrating door TT Hovenierswerken" class="hero-img" fetchpriority="high" loading="eager" decoding="async" width="440" height="420">
+                        <!-- // LCP: mobiel krijgt de lichtgewicht 400px-variant, desktop/tablet de 800px-variant – geen lazy loading op dit first-screen element -->
+                        <source srcset="img/beginpagina400.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/beginpagina800.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/beginpagina800.webp" alt="Professioneel aangelegd tegelterras door TT Hovenierswerken" class="hero-img" fetchpriority="high" loading="eager" decoding="async" width="440" height="420">
                     </picture>
+                    <!-- // Sectie: Donkere overlay over de foto zodat goud/witte tekst, badges en CTA's haarscherp leesbaar blijven -->
+                    <div class="hero-img-overlay" aria-hidden="true"></div>
                     <div class="hero-img-badge">
                         <span class="hero-img-badge-num">10+</span>
                         <span class="hero-img-badge-txt">jaar<br>ervaring</span>

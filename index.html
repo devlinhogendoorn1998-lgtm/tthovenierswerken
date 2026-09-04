@@ -116,15 +116,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <!-- Rechts: foto in gouden frame met badge -->
-            <!-- // FIX: mobiel en desktop tonen nu exact dezelfde foto (voorheen wees de desktop-fallback naar een afwijkende foto) -->
+            <!-- // Sectie: Hero-afbeelding – nieuwe beginpagina-fotoset (800px desktop/tablet, 400px mobiel) voor scherpere uitstraling en snellere LCP op mobiel -->
             <div class="hero-right">
                 <div class="hero-img-frame">
                     <picture>
-                        <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <!-- // IMG: width/height op fallback img voor CLS-preventie -->
-                        <img src="img/tuin-oplevering-desktop.webp" alt="TT Hovenierswerken – vakkundige hoveniers in Baarn" class="hero-img" fetchpriority="high" loading="eager" width="440" height="420">
+                        <!-- // LCP: mobiel krijgt de lichtgewicht 400px-variant, desktop/tablet de 800px-variant – geen lazy loading op dit first-screen element -->
+                        <source srcset="img/beginpagina400.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/beginpagina800.webp" media="(min-width: 769px)" type="image/webp">
+                        <!-- // IMG: width/height op fallback img voor CLS-preventie, fetchpriority high voor snelste LCP -->
+                        <img src="img/beginpagina800.webp" alt="TT Hovenierswerken – strak aangelegd tegelterras in Baarn" class="hero-img" fetchpriority="high" loading="eager" decoding="async" width="440" height="420">
                     </picture>
+                    <!-- // Sectie: Donkere overlay over de foto zodat goud/witte tekst, badges en CTA's haarscherp leesbaar blijven -->
+                    <div class="hero-img-overlay" aria-hidden="true"></div>
                     <div class="hero-img-badge">
                         <span class="hero-img-badge-num">10+</span>
                         <span class="hero-img-badge-txt">jaar<br>ervaring</span>
@@ -191,11 +194,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <!-- // Route-kaart 1: Tuinaanleg – linkt direct naar aanleg.html -->
                 <a href="aanleg.html" class="route-card route-card-aanleg">
-                    <!-- // FIX: mobiel en desktop tonen nu dezelfde foto -->
+                    <!-- // Sectie: route-kaart foto bijgewerkt naar de nieuwe beginpagina-fotoset -->
                     <picture>
-                        <source srcset="img/tuin-oplevering-mobiel.webp" media="(max-width: 768px)" type="image/webp">
-                        <source srcset="img/tuin-oplevering-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/tuin-oplevering-desktop.webp" alt="Tuinaanleg en tuinrenovatie door TT Hovenierswerken" class="route-card-img" loading="lazy" width="600" height="400">
+                        <source srcset="img/beginpagina400.webp" media="(max-width: 768px)" type="image/webp">
+                        <source srcset="img/beginpagina800.webp" media="(min-width: 769px)" type="image/webp">
+                        <img src="img/beginpagina800.webp" alt="Tuinaanleg en tuinrenovatie door TT Hovenierswerken" class="route-card-img" loading="lazy" decoding="async" width="600" height="400">
                     </picture>
                     <div class="route-card-content">
                         <span class="route-card-icon">🌿</span>
