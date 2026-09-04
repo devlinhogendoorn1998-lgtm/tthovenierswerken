@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <!-- // GOOGLE ADS: Global Site Tag (gtag.js) – Conversion Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18112459573"></script>
+    <!-- // SECTION // GTAG lazy-load: het 152 KiB gtag.js-script wordt pas dynamisch ingeladen na
+         de eerste gebruikersinteractie (scroll/klik/toets/touch) of anders alvast via
+         requestIdleCallback, zodat de mobiele LCP/TBT tijdens de initiële pagina-opbouw minimaal blijven. -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'AW-18112459573');
+
+        (function () {
+            var ttGtagLoaded = false;
+            function ttLoadGtagScript() {
+                if (ttGtagLoaded) return;
+                ttGtagLoaded = true;
+                var s = document.createElement('script');
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18112459573';
+                s.async = true;
+                document.head.appendChild(s);
+            }
+            ['scroll', 'click', 'keydown', 'touchstart', 'mousemove'].forEach(function (evt) {
+                window.addEventListener(evt, ttLoadGtagScript, { passive: true, once: true });
+            });
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(ttLoadGtagScript, { timeout: 5000 });
+            } else {
+                setTimeout(ttLoadGtagScript, 3000);
+            }
+        })();
     </script>
 
     <!-- // Meta: SEO & Social voor Beregening & Irrigatie pagina -->
@@ -131,7 +152,7 @@
                     <picture>
                         <source srcset="img/beregening-mobiel.webp" media="(max-width: 768px)" type="image/webp">
                         <source srcset="img/beregening-desktop.webp" media="(min-width: 769px)" type="image/webp">
-                        <img src="img/beregening-desktop.webp" alt="Professionele beregeningsinstallatie aangelegd door TT Hovenierswerken" class="responsive-tuinfoto" loading="lazy" width="600" height="400">
+                        <img src="img/beregening-desktop.webp" alt="Professionele beregeningsinstallatie aangelegd door TT Hovenierswerken" class="responsive-tuinfoto" loading="lazy" decoding="async" width="600" height="400">
                     </picture>
                 </div>
 
@@ -399,7 +420,7 @@
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
-                <img src="img/logo-tt.webp" alt="TT Hovenierswerken" class="footer-logo" width="88" height="48">
+                <img src="img/logo-tt-footer.webp" alt="TT Hovenierswerken" class="footer-logo" width="88" height="48" loading="lazy" decoding="async">
                 <p>Vakkundige hoveniers actief in Baarn en omgeving. Tuinaanleg, onderhoud en beregening op maat.</p>
             </div>
             <div class="footer-links">
@@ -450,8 +471,10 @@
         </div>
     </div>
 
-    <!-- // EmailJS SDK: asynchroon geladen, geen render-blocking -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- // SECTION // EmailJS SDK: NIET meer statisch geladen. script.min.js hieronder laadt de
+         EmailJS SDK nu pas dynamisch via ttLoadEmailJs() zodra een bezoeker een formulierveld
+         focust (focusin) of anders alvast idle op de achtergrond – de initiële payload voor
+         deze library is hierdoor 0 KiB tijdens de first paint. -->
 
     <!-- // Spoed Modal: telefonisch contact bij storing -->
     <div id="spoedModal" class="spoed-modal">

@@ -206,24 +206,80 @@ function ttTrackConversion() {
     });
 }
 
-// Sectie: EmailJS Core – gedeelde configuratie & verzendfunctie voor ALLE formulieren
+// Sectie: EmailJS Core – gedeelde configuratie voor ALLE formulieren
 // Zowel het offerteformulier (aanleg/onderhoud/beregening/meerdere) op index.html
 // als de beregening-rekentool op beregening.html vallen onder dezelfde EmailJS-koppeling ("1 ding").
 var TT_EMAILJS_PUBLIC_KEY  = 'wtlD1ny4zM9wUaf-y';
 var TT_EMAILJS_SERVICE_ID  = 'service_02uys6i';
 var TT_EMAILJS_TEMPLATE_ID = 'template_d57hl8b';
+var TT_EMAILJS_SDK_URL      = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
 
+// Sectie: EmailJS Lazy Loader – het SDK-script (email.min.js) staat NIET meer statisch in de HTML.
+// Hierdoor is de initiële payload tijdens de first paint 0 KiB voor deze library. De SDK wordt
+// pas dynamisch ingeladen op het moment dat een bezoeker daadwerkelijk focust op een veld van
+// een contact-/offerteformulier (focusin), of anders alvast op de achtergrond zodra de browser
+// idle is (requestIdleCallback) – zodat verzenden altijd meteen werkt zonder de main thread
+// tijdens het eerste renderproces te belasten.
+var _ttEmailJsPromise = null;
+
+// // Laadt (eenmalig) de EmailJS SDK en initialiseert deze; geeft een Promise terug die door
+// // meerdere aanroepen herbruikt wordt zodat het script nooit dubbel wordt ingevoegd.
+function ttLoadEmailJs() {
+    if (_ttEmailJsPromise) return _ttEmailJsPromise;
+
+    _ttEmailJsPromise = new Promise(function (resolve, reject) {
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init(TT_EMAILJS_PUBLIC_KEY);
+            resolve(emailjs);
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = TT_EMAILJS_SDK_URL;
+        script.async = true;
+        script.onload = function () {
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init(TT_EMAILJS_PUBLIC_KEY);
+                resolve(emailjs);
+            } else {
+                reject(new Error('EmailJS SDK geladen maar "emailjs" object niet gevonden.'));
+            }
+        };
+        script.onerror = function () {
+            reject(new Error('EmailJS SDK kon niet worden geladen.'));
+        };
+        document.head.appendChild(script);
+    });
+
+    return _ttEmailJsPromise;
+}
+
+// // Sectie: EmailJS lazy-load triggers – alleen relevant op pagina's met een contact-/offerteformulier.
 (function () {
-    // Eenmalige EmailJS initialisatie – wordt door alle formulieren op de site herbruikt
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init(TT_EMAILJS_PUBLIC_KEY);
+    const heeftFormulier = document.querySelector('.tt-quote-form, #calcForm');
+    if (!heeftFormulier) return; // // Geen formulier op deze pagina: SDK hoeft nooit geladen te worden
+
+    // // Trigger 1: zodra een bezoeker een formulierveld focust, direct de SDK inladen –
+    // // ruim vóórdat er daadwerkelijk verzonden wordt.
+    document.addEventListener('focusin', function (e) {
+        if (e.target.closest && e.target.closest('.tt-quote-form, #calcForm')) {
+            ttLoadEmailJs();
+        }
+    });
+
+    // // Trigger 2: fallback – laad de SDK alvast op de achtergrond zodra de browser idle is,
+    // // zodat verzenden ook meteen werkt als een bezoeker niet eerst een veld focust.
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(function () { ttLoadEmailJs(); }, { timeout: 5000 });
     } else {
-        console.error('EmailJS SDK is niet gevonden. Controleer of het EmailJS <script> correct geladen is vóórdat script.js uitgevoerd wordt.');
+        setTimeout(function () { ttLoadEmailJs(); }, 3000);
     }
 })();
 
 // // Gedeelde verzendfunctie: gebruikt door zowel het offerteformulier als de beregening-rekentool.
 // // Zo lopen alle aanvragen (aanleg, onderhoud, beregening, meerdere) via exact dezelfde EmailJS-koppeling.
+// // Wacht via ttLoadEmailJs() eerst tot de SDK volledig geladen & geïnitialiseerd is (laadt hem
+// // direct in als dat door de triggers hierboven nog niet gebeurd was).
 function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
     const origineleTekst = submitBtn ? submitBtn.textContent : '';
 
@@ -232,35 +288,36 @@ function ttVerzendAanvraag(templateParams, submitBtn, onSuccess, onError) {
         submitBtn.disabled = true;
     }
 
-    // Vangnet: als de EmailJS SDK niet geladen is, direct duidelijke foutmelding tonen
-    if (typeof emailjs === 'undefined') {
-        console.error('EmailJS fout: SDK niet beschikbaar op het moment van verzenden.');
-        if (submitBtn) {
-            submitBtn.textContent = origineleTekst;
-            submitBtn.disabled = false;
-        }
-        alert('Er is iets misgegaan: het verzendsysteem kon niet worden geladen. Probeer de pagina te vernieuwen of neem contact op via info@tthovenierswerken.nl.');
-        if (onError) onError();
-        return;
-    }
-
-    emailjs.send(TT_EMAILJS_SERVICE_ID, TT_EMAILJS_TEMPLATE_ID, templateParams)
-        .then(function (response) {
-            if (submitBtn) {
-                submitBtn.textContent = origineleTekst;
-                submitBtn.disabled = false;
-            }
-            if (onSuccess) onSuccess(response);
+    ttLoadEmailJs()
+        .then(function (emailjsInstance) {
+            emailjsInstance.send(TT_EMAILJS_SERVICE_ID, TT_EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function (response) {
+                    if (submitBtn) {
+                        submitBtn.textContent = origineleTekst;
+                        submitBtn.disabled = false;
+                    }
+                    if (onSuccess) onSuccess(response);
+                })
+                .catch(function (err) {
+                    // // Log de volledige EmailJS-foutmelding in de console voor debugging
+                    console.error('EmailJS fout:', err);
+                    if (submitBtn) {
+                        submitBtn.textContent = origineleTekst;
+                        submitBtn.disabled = false;
+                    }
+                    const detail = (err && err.text) ? ' (' + err.text + ')' : '';
+                    alert('Er is iets misgegaan bij het verzenden' + detail + '. Probeer het opnieuw of neem direct contact op via info@tthovenierswerken.nl.');
+                    if (onError) onError(err);
+                });
         })
         .catch(function (err) {
-            // // Log de volledige EmailJS-foutmelding in de console voor debugging
-            console.error('EmailJS fout:', err);
+            // // Vangnet: de SDK kon niet geladen worden (bv. netwerkfout)
+            console.error('EmailJS fout: SDK kon niet geladen worden.', err);
             if (submitBtn) {
                 submitBtn.textContent = origineleTekst;
                 submitBtn.disabled = false;
             }
-            const detail = (err && err.text) ? ' (' + err.text + ')' : '';
-            alert('Er is iets misgegaan bij het verzenden' + detail + '. Probeer het opnieuw of neem direct contact op via info@tthovenierswerken.nl.');
+            alert('Er is iets misgegaan: het verzendsysteem kon niet worden geladen. Probeer de pagina te vernieuwen of neem contact op via info@tthovenierswerken.nl.');
             if (onError) onError(err);
         });
 }
