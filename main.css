@@ -830,6 +830,7 @@ nav a.nav-cta:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .hero-img-frame {
@@ -860,18 +861,9 @@ nav a.nav-cta:hover {
     object-position: center 55%;
     border-radius: 14px;
     display: block;
-    filter: brightness(0.88) contrast(1.05);
 }
 
-/* // Sectie: Donkere overlay over de hero-foto – houdt goud/witte tekst, badges en CTA's haarscherp leesbaar boven de foto */
-.hero-img-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    border-radius: 14px;
-    background: rgba(18, 18, 18, 0.72);
-    pointer-events: none;
-}
+/* // Sectie: overlay verwijderd - de foto toont nu haar originele, natuurlijke kleuren zonder waas */
 
 /* // BADGE: 10+ jaar ervaring */
 .hero-img-badge {
@@ -903,6 +895,32 @@ nav a.nav-cta:hover {
     letter-spacing: 0.05em;
 }
 
+/* // Sectie: Mobiel-only accent tag op de hero-foto - geeft een warmere, hoveniers-uitstraling; standaard verborgen op desktop/tablet */
+.hero-img-tag {
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    align-items: center;
+    gap: 6px;
+    background: rgba(14, 14, 14, 0.72);
+    border: 1px solid var(--gold-dark);
+    color: var(--gold-light);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 7px 14px;
+    border-radius: 50px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* // Sectie: Mobiel-only CTA-strip direct onder de hero-foto - trekt de blik van de foto naar de offerte-aanvraag */
+.hero-img-cta-mobile {
+    display: none;
+}
+
 /* ============================================
    // REVIEWS SECTIE – Trustoo widget (social proof voor de offerte-CTA)
    ============================================ */
@@ -920,9 +938,36 @@ nav a.nav-cta:hover {
 }
 
 /* // Widget-container: gecentreerd met max-breedte zodat het zich netjes voegt in de layout */
+/* // CLS-fix: min-height reserveert de ruimte voordat het async Trustoo-script de widget-markup injecteert,
+   zodat de pagina niet verspringt zodra logo/ster/score-svg's alsnog worden geladen */
 .reviews-section .trustoo-widget {
     max-width: 640px;
     margin: 40px auto 0;
+    min-height: 104px;
+}
+
+/* // CLS-fix: expliciete breedte/hoogte voor de door Trustoo geïnjecteerde svg-iconen.
+   Deze <img>-tags bestaan niet in onze eigen markup (ze worden pas na script-load toegevoegd),
+   daarom forceren we hun intrinsieke afmetingen hier via attribuut-selectors op src. */
+.reviews-section .trustoo-widget img[src*="trustoo_logo_white.svg"] {
+    width: 90px;
+    height: 20px;
+}
+
+.reviews-section .trustoo-widget img[src*="google_logo.svg"] {
+    width: 72px;
+    height: 24px;
+}
+
+.reviews-section .trustoo-widget img[src*="star_full.svg"] {
+    width: 14px;
+    height: 14px;
+}
+
+.reviews-section .trustoo-widget img[src*="score_half.svg"],
+.reviews-section .trustoo-widget img[src*="score_full.svg"] {
+    width: 16px;
+    height: 16px;
 }
 
 /* ============================================
@@ -1310,10 +1355,29 @@ nav a.nav-cta:hover {
         margin-bottom: 20px;
     }
 
-    /* // FOCUS: op mobiel het strak gelegde tegelterras en de diepte van de foto goed centreren */
+    /* // Sectie: zachte gouden gloed achter het frame – zorgt op mobiel voor een uitnodigender, minder "strak" gevoel */
+    .hero-img-frame {
+        max-width: 100%;
+    }
+
+    .hero-img-frame::after {
+        content: '';
+        position: absolute;
+        inset: -28px;
+        z-index: -1;
+        background: radial-gradient(circle, rgba(201, 168, 76, 0.22) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    /* // FOCUS: op mobiel het aangelegde terras en de diepte van de foto goed centreren, iets grotere en rondere weergave voor meer sfeer */
     .hero-img {
-        height: 240px;
+        height: 260px;
         object-position: center 70%;
+        border-radius: 20px;
+    }
+
+    .hero-img-frame::before {
+        border-radius: 22px;
     }
 
     .hero-img-badge {
@@ -1324,6 +1388,44 @@ nav a.nav-cta:hover {
 
     .hero-img-badge-num {
         font-size: 1.5rem;
+    }
+
+    /* // Sectie: accent-tag zichtbaar maken op mobiel voor extra hoveniers-sfeer op de foto */
+    .hero-img-tag {
+        display: flex;
+    }
+
+    /* // Sectie: CTA-strip onder de foto zichtbaar maken op mobiel – nudge richting offerte-aanvraag */
+    .hero-img-cta-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        max-width: 440px;
+        margin-top: 20px;
+        padding: 14px 22px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        color: var(--dark);
+        font-weight: 700;
+        font-size: 0.95rem;
+        border-radius: 50px;
+        box-shadow: 0 10px 28px rgba(201, 168, 76, 0.3);
+        transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .hero-img-cta-mobile:hover,
+    .hero-img-cta-mobile:active {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 34px rgba(201, 168, 76, 0.4);
+    }
+
+    .hero-img-cta-arrow {
+        transition: transform var(--transition);
+    }
+
+    .hero-img-cta-mobile:hover .hero-img-cta-arrow {
+        transform: translateX(4px);
     }
 
     .hero-usp-list {
